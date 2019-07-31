@@ -3,6 +3,7 @@
 import random
 import string
 from copy import *
+from itertools import *
 
 # Global Constants
 VOWELS = 'aeiou'
@@ -89,15 +90,14 @@ class Hand(object):
         False otherwise
         """
 
-        a = self.handDict.copy()
+        letters_freq = getFrequencyDict(letters)
 
-        for ch in letters:
-            a[ch] -= 1
-            if a[ch] < 0:
+        for key in letters_freq:
+            if letters_freq[key] > self.handDict.get(key, 0):
                 return False
 
         return True
-        
+
 
         
     def isEmpty(self): ## OK, NOT TESTED
@@ -258,7 +258,19 @@ class ComputerPlayer(Player):
         returns: The best word (a string), given the computer player's hand and
         the wordlist
         """
-        # TODO
+
+        words = []
+        for word in wordlist.wordlist:
+            if self.hand.containsLetters(word):
+                words.append(word)
+        if words:
+            words_points = [(word, getWordScore(word)) for word in words]
+            best_word = max(words_points, key=lambda x: x[1])[0]
+            return best_word
+        print "%r can not make any word, hand over.\n" % ''.join(c for c in self.hand.handDict for i in range(self.hand.handDict[c]))
+        return '.'
+
+        
     def playHand(self, callback, wordlist):
         """
         Play a hand completely by passing chosen words to the callback
@@ -388,8 +400,5 @@ class Game(object):
             string = string + str(player)
         return string
 
-##a = "sequence"
-##print getFrequencyDict(a)
 
-a = Hand(HAND_SIZE)
-print a.handDict
+
