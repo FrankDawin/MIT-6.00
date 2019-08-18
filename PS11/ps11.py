@@ -8,7 +8,7 @@ import random
 
 
 
-# === Provided classes
+
 
 class Position(object):
     """
@@ -57,8 +57,6 @@ class Position(object):
 
 
 
-# === Problems 1 and 2
-
 
 
 class RectangularRoom(object):
@@ -83,6 +81,11 @@ class RectangularRoom(object):
         self.width = width
         self.height = height
         self.tiles = self.tile_dict()
+
+        ## Other easier data
+
+        self.num_tiles = self.getNumTiles()
+        self.cleaned_tiles = self.getNumCleanedTiles()
 
     
 
@@ -160,6 +163,13 @@ class RectangularRoom(object):
         return count
 
 
+    def get_coverage(self):
+        '''Return a coverage as a float representing the percentage cleaned (0 to 1)'''
+
+        cov = getNumCleanedTiles / self.getNumTiles 
+
+        return cov
+
 
     def getRandomPosition(self):
         """
@@ -188,6 +198,7 @@ class RectangularRoom(object):
             return False
 
         return True
+
 
 
 
@@ -221,7 +232,7 @@ class BaseRobot(object):
         speed: a float (speed > 0)
         """
 
-        self.room = RectangularRoom(3,4)
+        self.room = room
         self.speed = speed                  
         self.d = random.randint(0,360)      
         self.p = self.room.getRandomPosition()                        
@@ -230,22 +241,22 @@ class BaseRobot(object):
     def __str__(self):
         '''Print base data'''
 
-        print "room: {}".format(self.room)
+        print "room: width:{} height:{}".format(self.room.width, self.room.height)
         print "speed: {}".format(self.speed)
         print "d: {}".format(self.d)
-        print "p: {}".format(self.p)
+        print "p: ({},{})".format(self.p.x, self.p.y)
 
         return ""
 
 
-    def getRobotPosition(self): ## Object type only??
+    def getRobotPosition(self): 
         """
         Return the position of the robot.
 
         returns: a Position object giving the robot's position.
         """
 
-        return self.p
+        return (self.p.x, self.p.y)
 
 
 
@@ -289,6 +300,7 @@ class BaseRobot(object):
 
 
 
+
 class Robot(BaseRobot):
     """
     A Robot is a BaseRobot with the standard movement strategy.
@@ -314,14 +326,14 @@ class Robot(BaseRobot):
         if self.isTileCleaned(a[0], a[1]) == False: ## Check if the new tile is clean
             self.cleanTileAtPosition(a)
 
-        
+        self.p = a ## Set new position as current position
         
 
 
-# === Problem 3
+
 
 def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
-                  robot_type, visualize):
+                  robot_type, visualize=False):
     """
     Runs NUM_TRIALS trials of the simulation and returns a list of
     lists, one per trial. The list for a trial has an element for each
@@ -344,7 +356,17 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
                 RandomWalkRobot)
     visualize: a boolean (True to turn on visualization)
     """
-    # TODO: Your code goes here
+
+    result = []
+    sim_count = 0
+
+    the_room = RectangularRoom(width, height)
+
+    while sim_count < num_trials:
+        if min_coverage < 1.0:
+            rob = str("rob " + sim_count)
+            rob = Robot(the_room, speed)
+    
 
 # === Provided function
 def computeMeans(list_of_lists):
@@ -424,5 +446,4 @@ def showPlot5():
 
 
 if __name__ == "__main__":
-    a = BaseRobot((3,4),1)
-    print a.getRobotDirection()
+    runSimulation(5, 1.0, 3, 4, min_coverage, 5, Robot)
