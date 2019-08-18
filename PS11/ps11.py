@@ -4,6 +4,9 @@
 # Time:
 
 import math
+import random
+
+
 
 # === Provided classes
 
@@ -20,10 +23,16 @@ class Position(object):
         """
         self.x = x
         self.y = y
+
+
     def getX(self):
         return self.x
+
+
     def getY(self):
         return self.y
+
+
     def getNewPosition(self, angle, speed):
         """
         Computes and returns the new Position after a single clock-tick has
@@ -47,7 +56,10 @@ class Position(object):
         return Position(new_x, new_y)
 
 
+
 # === Problems 1 and 2
+
+
 
 class RectangularRoom(object):
     """
@@ -57,6 +69,8 @@ class RectangularRoom(object):
     A room has a width and a height and contains (width * height) tiles. At any
     particular time, each of these tiles is either clean or dirty.
     """
+
+
     def __init__(self, width, height):
         """
         Initializes a rectangular room with the specified width and height.
@@ -65,7 +79,39 @@ class RectangularRoom(object):
         width: an integer > 0
         height: an integer > 0
         """
-        # TODO: Your code goes here
+
+        self.width = width
+        self.height = height
+        self.tiles = self.tile_dict()
+
+
+
+    def tile_list(self):
+        '''Return a list of all possible tiles as tuples (width, height, bool for clean)'''
+
+        result = []
+
+        for i in range(1, self.width+1):
+            for y in range(1, self.height+1):
+                result.append((i,y, False))
+
+        return result
+    
+
+
+    def tile_dict(self):
+        '''return a dict with tiles to be cleaned'''
+
+        result = {}
+
+        for i in range(1, self.width+1):
+            for y in range(1, self.height+1):
+                result[(i,y)] = False
+
+        return result
+
+
+
     def cleanTileAtPosition(self, pos):
         """
         Mark the tile under the position POS as cleaned.
@@ -73,7 +119,11 @@ class RectangularRoom(object):
 
         pos: a Position
         """
-        # TODO: Your code goes here
+
+         return self.tiles[pos] = True
+        
+
+
     def isTileCleaned(self, m, n):
         """
         Return True if the tile (m, n) has been cleaned.
@@ -84,28 +134,54 @@ class RectangularRoom(object):
         n: an integer
         returns: True if (m, n) is cleaned, False otherwise
         """
-        # TODO: Your code goes here
+
+        if self.tiles[(m,n)] == True:
+            return True
+
+        else:
+            return False
+
+        
+
     def getNumTiles(self):
         """
         Return the total number of tiles in the room.
 
         returns: an integer
         """
-        # TODO: Your code goes here
+
+        return len(self.tiles)
+
+
+
     def getNumCleanedTiles(self):
         """
         Return the total number of clean tiles in the room.
 
         returns: an integer
         """
-        # TODO: Your code goes here
+
+        count = 0
+
+        for i in self.tiles:
+            if self.tiles[] == True:
+                count += 1
+
+        return count
+
+
+
     def getRandomPosition(self):
         """
         Return a random position inside the room.
 
         returns: a Position object.
         """
-        # TODO: Your code goes here
+
+        return random.choice(list(self.tiles.keys()))
+
+
+
     def isPositionInRoom(self, pos):
         """
         Return True if POS is inside the room.
@@ -113,7 +189,13 @@ class RectangularRoom(object):
         pos: a Position object.
         returns: True if POS is in the room, False otherwise.
         """
-        # TODO: Your code goes here
+
+        if self.tiles.get(pos) == None:
+            return False
+
+        return True
+
+
 
 
 class BaseRobot(object):
@@ -127,6 +209,9 @@ class BaseRobot(object):
     implementing updatePositionAndClean(), which simulates a single
     time-step.
     """
+
+
+
     def __init__(self, room, speed):
         """
         Initializes a Robot with the given speed in the specified
@@ -142,6 +227,14 @@ class BaseRobot(object):
         speed: a float (speed > 0)
         """
         # TODO: Your code goes here
+
+        self.room = RectangularRoom(3,4)
+        self.speed = speed
+        self.d = random.randint(0,360)
+        self.p = 0
+
+
+
     def getRobotPosition(self):
         """
         Return the position of the robot.
@@ -149,6 +242,9 @@ class BaseRobot(object):
         returns: a Position object giving the robot's position.
         """
         # TODO: Your code goes here
+
+
+
     def getRobotDirection(self):
         """
         Return the direction of the robot.
@@ -157,6 +253,10 @@ class BaseRobot(object):
         degrees, 0 <= d < 360.
         """
         # TODO: Your code goes here
+
+
+
+
     def setRobotPosition(self, position):
         """
         Set the position of the robot to POSITION.
@@ -164,6 +264,9 @@ class BaseRobot(object):
         position: a Position object.
         """
         # TODO: Your code goes here
+
+
+
     def setRobotDirection(self, direction):
         """
         Set the direction of the robot to DIRECTION.
@@ -171,6 +274,7 @@ class BaseRobot(object):
         direction: integer representing an angle in degrees
         """
         # TODO: Your code goes here
+
 
 
 class Robot(BaseRobot):
@@ -294,3 +398,9 @@ def showPlot5():
     Produces a plot comparing the two robot strategies.
     """
     # TODO: Your code goes here
+
+
+
+a = RectangularRoom(3,4)
+for i in a.tiles:
+    print i
