@@ -84,18 +84,6 @@ class RectangularRoom(object):
         self.height = height
         self.tiles = self.tile_dict()
 
-
-
-    def tile_list(self):
-        '''Return a list of all possible tiles as tuples (width, height, bool for clean)'''
-
-        result = []
-
-        for i in range(1, self.width+1):
-            for y in range(1, self.height+1):
-                result.append((i,y, False))
-
-        return result
     
 
 
@@ -120,7 +108,9 @@ class RectangularRoom(object):
         pos: a Position
         """
 
-         return self.tiles[pos] = True
+        self.tiles[pos] = True
+
+        return self.tiles
         
 
 
@@ -164,7 +154,7 @@ class RectangularRoom(object):
         count = 0
 
         for i in self.tiles:
-            if self.tiles[] == True:
+            if self.tiles[i] == True:
                 count += 1
 
         return count
@@ -178,7 +168,11 @@ class RectangularRoom(object):
         returns: a Position object.
         """
 
-        return random.choice(list(self.tiles.keys()))
+        a = random.choice(list(self.tiles.keys()))
+
+        b = Position(a[0],a[1])
+
+        return b
 
 
 
@@ -226,22 +220,32 @@ class BaseRobot(object):
         room:  a RectangularRoom object.
         speed: a float (speed > 0)
         """
-        # TODO: Your code goes here
 
         self.room = RectangularRoom(3,4)
-        self.speed = speed
-        self.d = random.randint(0,360)
-        self.p = 0
+        self.speed = speed                  
+        self.d = random.randint(0,360)      
+        self.p = self.room.getRandomPosition()                        
 
 
+    def __str__(self):
+        '''Print base data'''
 
-    def getRobotPosition(self):
+        print "room: {}".format(self.room)
+        print "speed: {}".format(self.speed)
+        print "d: {}".format(self.d)
+        print "p: {}".format(self.p)
+
+        return ""
+
+
+    def getRobotPosition(self): ## Object type only??
         """
         Return the position of the robot.
 
         returns: a Position object giving the robot's position.
         """
-        # TODO: Your code goes here
+
+        return self.p
 
 
 
@@ -252,7 +256,8 @@ class BaseRobot(object):
         returns: an integer d giving the direction of the robot as an angle in
         degrees, 0 <= d < 360.
         """
-        # TODO: Your code goes here
+        
+        return self.d
 
 
 
@@ -263,7 +268,10 @@ class BaseRobot(object):
 
         position: a Position object.
         """
-        # TODO: Your code goes here
+
+        self.p = Position.getNewPosition(self.d, self.speed)
+
+        return self.p
 
 
 
@@ -273,7 +281,11 @@ class BaseRobot(object):
 
         direction: integer representing an angle in degrees
         """
-        # TODO: Your code goes here
+
+        self.d = random.randint(0,360)
+
+        return self.d
+
 
 
 
@@ -292,7 +304,18 @@ class Robot(BaseRobot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        # TODO: Your code goes here
+
+        if self.getNumCleanedTiles() == self.getNumTiles(): ## Check if all tiles are clean
+            return "The room is all cleaned"
+
+
+        a = self.getNewPosition(self.d, self.speed) ## Calculate new position
+        
+        if self.isTileCleaned(a[0], a[1]) == False: ## Check if the new tile is clean
+            self.cleanTileAtPosition(a)
+
+        
+        
 
 
 # === Problem 3
@@ -400,7 +423,6 @@ def showPlot5():
     # TODO: Your code goes here
 
 
-
-a = RectangularRoom(3,4)
-for i in a.tiles:
-    print i
+if __name__ == "__main__":
+    a = BaseRobot((3,4),1)
+    print a.getRobotDirection()
