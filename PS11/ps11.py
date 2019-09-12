@@ -23,6 +23,15 @@ class Position(object):
         """
         self.x = x
         self.y = y
+##        print "New position class evoqued", self.x, self.y
+
+
+    def __str__(self):
+        '''print function'''
+
+        print "x: {}, y: {}".format(self.x, self.y)
+
+        return ""
 
 
     def getX(self):
@@ -32,7 +41,7 @@ class Position(object):
     def getY(self):
         return self.y
 
-
+    
     def getNewPosition(self, angle, speed):
         """
         Computes and returns the new Position after a single clock-tick has
@@ -87,6 +96,18 @@ class RectangularRoom(object):
         self.num_tiles = self.getNumTiles()
         self.cleaned_tiles = self.getNumCleanedTiles()
 
+##        print "Room class evoqued"
+
+
+
+    def __str__(self):
+
+        print "width: {}, height: {}".format(self.width, self.height)
+        print "self.tiles: {}".format(self.tiles)
+        print "self.num_tiles: {}".format(self.num_tiles)
+        print "self.cleaned_tiles: {}".format(self.cleaned_tiles)
+
+        return ""
     
 
 
@@ -171,7 +192,7 @@ class RectangularRoom(object):
         return cov
 
 
-    def getRandomPosition(self):
+    def getRandomPosition(self): 
         """
         Return a random position inside the room.
 
@@ -194,9 +215,11 @@ class RectangularRoom(object):
         returns: True if POS is in the room, False otherwise.
         """
 
-        if self.tiles.get(pos) == None:
+    
+        if self.tiles.get((int(pos.x),int(pos.y))) == None:
+            
             return False
-
+        
         return True
 
 
@@ -234,29 +257,31 @@ class BaseRobot(object):
 
         self.room = room
         self.speed = speed                  
-        self.d = random.randint(0,360)      
-        self.p = self.room.getRandomPosition()                        
+        self.direction = random.randint(0,360)      
+    
+        self.position_list = []
+        self.position_list.append(self.room.getRandomPosition())
 
 
     def __str__(self):
         '''Print base data'''
 
-        print "room: width:{} height:{}".format(self.room.width, self.room.height)
+        print "Baserobot class data"
         print "speed: {}".format(self.speed)
-        print "d: {}".format(self.d)
-        print "p: ({},{})".format(self.p.x, self.p.y)
+        print "direction: {}".format(self.direction)
+        print "position_list: {}".format(self.position_list)
 
         return ""
 
 
-    def getRobotPosition(self): 
+    def getRobotPosition(self):
         """
         Return the position of the robot.
 
         returns: a Position object giving the robot's position.
         """
 
-        return (self.p.x, self.p.y)
+        return (self.position_list[-1])
 
 
 
@@ -268,7 +293,7 @@ class BaseRobot(object):
         degrees, 0 <= d < 360.
         """
         
-        return self.d
+        return self.direction
 
 
 
@@ -280,22 +305,23 @@ class BaseRobot(object):
         position: a Position object.
         """
 
-        self.p = Position.getNewPosition(self.d, self.speed)
+        
+        self.position_list.append(Position.getNewPosition(self.direction, self.speed))
 
-        return self.p
+        return 
 
 
 
-    def setRobotDirection(self, direction):
+    def setRobotDirection(self): ## (self, direction) old version
         """
         Set the direction of the robot to DIRECTION.
 
         direction: integer representing an angle in degrees
         """
 
-        self.d = random.randint(0,360)
+        self.direction = random.randint(0,360)
 
-        return self.d
+        return self.direction
 
 
 
@@ -317,16 +343,22 @@ class Robot(BaseRobot):
         been cleaned.
         """
 
-        if self.getNumCleanedTiles() == self.getNumTiles(): ## Check if all tiles are clean
-            return "The room is all cleaned"
+        ## move
+        #### update robot direction
+        self.direction = self.setRobotDirection()
 
+        #### check if new position is possible
+        a = self.position_list[-1].getNewPosition(self.direction, self.speed)  ## NOT OK!!!! WHY
 
-        a = self.getNewPosition(self.d, self.speed) ## Calculate new position
+        if self.room.isPositionInRoom(a) == True: 
+            self.position_list.append(a) ## change position
+
+        else:
+            return "Bang, into the wall"
+
+        ## clean tile
+        self.room.cleanTileAtPosition(self.position_list[-1])
         
-        if self.isTileCleaned(a[0], a[1]) == False: ## Check if the new tile is clean
-            self.cleanTileAtPosition(a)
-
-        self.p = a ## Set new position as current position
         
 
 
@@ -364,8 +396,13 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
 
     while sim_count < num_trials:
         if min_coverage < 1.0:
-            rob = str("rob " + sim_count)
+            rob = "rob " + str(sim_count)
             rob = Robot(the_room, speed)
+            sim_count += 1
+
+    print the_room
+
+
     
 
 # === Provided function
@@ -445,5 +482,33 @@ def showPlot5():
     # TODO: Your code goes here
 
 
+
+
+def test():
+    '''Trying to make sense of all this'''
+
+    count = 0
+    some_room = RectangularRoom(3,4)
+    roboto = Robot(some_room,1)
+
+    while count < 10:
+        roboto.updatePositionAndClean()
+        count += 1
+
+    
+
+    print some_room.getNumCleanedTiles()
+    print some_room.tiles
+
+
 if __name__ == "__main__":
-    runSimulation(5, 1.0, 3, 4, min_coverage, 5, Robot)
+##    runSimulation(5, 1.0, 3, 4, 0.5, 5, Robot)
+
+##    a = Position(1,1)
+##    print a
+##    b = a.getNewPosition(75, 1)
+##
+##    some_room = RectangularRoom(3,4)
+##    roboto = Robot(some_room,1)
+##    print roboto.position_list[-1]
+    test()   

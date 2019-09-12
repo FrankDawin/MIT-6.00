@@ -1,0 +1,13 @@
+PS11
+
+Position class:  ####Nothing to be done
+
+- is a Position object to be used
+- x and y values
+- compute change in position*
+
+
+RectangularRoom class:
+
+- make a room to be cleaned
+- need to remake function to be sure to interact with Position class
