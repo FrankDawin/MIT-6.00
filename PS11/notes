@@ -1,13 +1,23 @@
 PS11
 
-Position class:  ####Nothing to be done
+Position class:
 
-- is a Position object to be used
-- x and y values
-- compute change in position*
+	new_pos(agle,speed)
 
 
-RectangularRoom class:
+Room class:
 
-- make a room to be cleaned
-- need to remake function to be sure to interact with Position class
+	clean(pos)
+	is_clean(m,n)
+	total_tiles()
+	num_clean_tiles()
+	get_coverage()
+	random_pos()
+	pos_exist(pos)
+
+robot class:
+
+	get_pos()
+	get_direction()
+	set_pos(pos)
+	set_direction()

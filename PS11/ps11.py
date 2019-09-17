@@ -42,7 +42,7 @@ class Position(object):
         return self.y
 
     
-    def getNewPosition(self, angle, speed):
+    def new_pos(self, angle, speed):
         """
         Computes and returns the new Position after a single clock-tick has
         passed, with this object as the current position, and with the
@@ -68,7 +68,7 @@ class Position(object):
 
 
 
-class RectangularRoom(object):
+class Room(object):
     """
     A RectangularRoom represents a rectangular region containing clean or dirty
     tiles.
@@ -124,7 +124,7 @@ class RectangularRoom(object):
 
 
 
-    def cleanTileAtPosition(self, pos):
+    def clean(self, pos):
         """
         Mark the tile under the position POS as cleaned.
         Assumes that POS represents a valid position inside this room.
@@ -138,7 +138,7 @@ class RectangularRoom(object):
         
 
 
-    def isTileCleaned(self, m, n):
+    def is_clean(self, m, n):
         """
         Return True if the tile (m, n) has been cleaned.
 
@@ -157,7 +157,7 @@ class RectangularRoom(object):
 
         
 
-    def getNumTiles(self):
+    def total_tiles(self):
         """
         Return the total number of tiles in the room.
 
@@ -168,7 +168,7 @@ class RectangularRoom(object):
 
 
 
-    def getNumCleanedTiles(self):
+    def num_clean_tiles(self):
         """
         Return the total number of clean tiles in the room.
 
@@ -192,7 +192,7 @@ class RectangularRoom(object):
         return cov
 
 
-    def getRandomPosition(self): 
+    def random_pos(self): 
         """
         Return a random position inside the room.
 
@@ -207,7 +207,7 @@ class RectangularRoom(object):
 
 
 
-    def isPositionInRoom(self, pos):
+    def pos_exist(self, pos):
         """
         Return True if POS is inside the room.
 
@@ -226,7 +226,7 @@ class RectangularRoom(object):
 
 
 
-class BaseRobot(object):
+class robot(object):
     """
     Represents a robot cleaning a particular room.
 
@@ -274,7 +274,7 @@ class BaseRobot(object):
         return ""
 
 
-    def getRobotPosition(self):
+    def get_pos(self):
         """
         Return the position of the robot.
 
@@ -285,7 +285,7 @@ class BaseRobot(object):
 
 
 
-    def getRobotDirection(self):
+    def get_direction(self):
         """
         Return the direction of the robot.
 
@@ -298,7 +298,7 @@ class BaseRobot(object):
 
 
 
-    def setRobotPosition(self, position):
+    def set_pos(self, position):
         """
         Set the position of the robot to POSITION.
 
@@ -312,7 +312,7 @@ class BaseRobot(object):
 
 
 
-    def setRobotDirection(self): ## (self, direction) old version
+    def set_direction(self): ## (self, direction) old version
         """
         Set the direction of the robot to DIRECTION.
 
