@@ -1,11 +1,19 @@
 PS11
 
-Position class:
+-------------------------------------
+position class:
 
-	new_pos(agle,speed)
+x
+y
 
+	new_pos(angle,speed)
 
-Room class:
+-------------------------------------
+room class:
+
+width
+height
+tiles
 
 	clean(pos)
 	is_clean(m,n)
@@ -15,9 +23,23 @@ Room class:
 	random_pos()
 	pos_exist(pos)
 
+------------------------------------
 robot class:
 
+room
+speed
+angle
+position_list
+
 	get_pos()
-	get_direction()
+	get_angle()
 	set_pos(pos)
-	set_direction()
+	set_angle()
+
+------------------------------------
+robot_a class:
+
+	update_clean()
+
+
+
