@@ -12,7 +12,7 @@ import ps11_visualize
 
 
 
-class position(object):  ## Nothing to do
+class Position(object):  ## Nothing to do
     """
     A Position represents a location in a two-dimensional room.
     """
@@ -43,7 +43,7 @@ class position(object):  ## Nothing to do
         return self.y
 
     
-    def new_pos(self, angle, speed):
+    def getNewPosition(self, angle, speed):
         """
         Computes and returns the new Position after a single clock-tick has
         passed, with this object as the current position, and with the
@@ -63,13 +63,13 @@ class position(object):  ## Nothing to do
         # Add that to the existing position
         new_x = old_x + delta_x
         new_y = old_y + delta_y
-        return position(new_x, new_y)
+        return Position(new_x, new_y)
 
 
 
 
 
-class room(object):
+class RectangularRoom(object):
     """
     A RectangularRoom represents a rectangular region containing clean or dirty
     tiles.
@@ -98,7 +98,7 @@ class room(object):
 
 ##        print "width: {}, height: {}".format(self.width, self.height)
 ##        print "self.tiles: {}".format(self.tiles)
-        print "clean/total: {}/{}".format(self.num_clean_tiles(), self.total_tiles())
+        print "clean/total: {}/{}".format(self.getNumCleanedTiles(), self.getNumTiles())
         return ""
     
 
@@ -125,7 +125,7 @@ class room(object):
     
 
 
-    def clean(self, pos):
+    def cleanTileAtPosition(self, pos):
         """
         Mark the tile under the position POS as cleaned.
         Assumes that POS represents a valid position inside this room.
@@ -140,7 +140,7 @@ class room(object):
     
         
         
-    def is_clean(self, pos):
+    def isTileCleaned(self, m, n):
         """
         Return True if the tile (m, n) has been cleaned.
 
@@ -151,15 +151,17 @@ class room(object):
         returns: True if (m, n) is cleaned, False otherwise
         """
 
-        if self.tiles[(int(pos.x),int(pos.y))] == True:
-            return True
+        try:
+            if self.tiles[(int(m),int(n))] == True:
+                return True
 
-        else:
+            else:
+                return False
+        except:
             return False
-
         
 
-    def total_tiles(self):
+    def getNumTiles(self):
         """
         Return the total number of tiles in the room.
 
@@ -170,7 +172,7 @@ class room(object):
 
 
 
-    def num_clean_tiles(self):
+    def getNumCleanedTiles(self):
         """
         Return the total number of clean tiles in the room.
 
@@ -190,13 +192,13 @@ class room(object):
     def get_coverage(self):
         '''Return a coverage as a float representing the percentage cleaned (0 to 1)'''
 
-        cov = self.num_clean_tiles() / self.total_tiles()
-
+        cov = self.getNumCleanedTiles() / self.getNumTiles()
+        
         return cov
 
 
 
-    def random_pos(self): 
+    def getRandomPosition(self): 
         """
         Return a random position inside the room.
 
@@ -205,13 +207,13 @@ class room(object):
 
         a = random.choice(list(self.tiles.keys()))
 
-        b = position(a[0],a[1])
+        b = Position(a[0],a[1])
 
         return b
 
 
 
-    def pos_exist(self, pos):
+    def isPositionInRoom(self, pos):
         """
         Return True if POS is inside the room.
 
@@ -230,7 +232,7 @@ class room(object):
 
 
 
-class robot(object):
+class BaseRobot(object):
     """
     Represents a robot cleaning a particular room.
 
@@ -261,8 +263,8 @@ class robot(object):
 
         self.room = room
         self.speed = speed                  
-        self.angle = self.set_angle()
-        self.current_pos = self.room.random_pos()
+        self.angle = self.setRobotDirection()
+        self.current_pos = self.room.getRandomPosition()
     
 
 
@@ -278,7 +280,7 @@ class robot(object):
 
 
 
-    def get_pos(self):
+    def getRobotPosition(self):
         """
         Return the position of the robot.
 
@@ -289,7 +291,7 @@ class robot(object):
 
 
 
-    def get_angle(self):
+    def getRobotDirection(self):
         """
         Return the direction of the robot.
 
@@ -302,7 +304,7 @@ class robot(object):
 
 
 
-    def set_pos(self, pos):
+    def setRobotPosition(self, pos):
         """
         Set the position of the robot to POSITION.
 
@@ -315,7 +317,7 @@ class robot(object):
 
 
 
-    def set_angle(self): ## (self, direction) old version
+    def setRobotDirection(self): ## (self, direction) old version
         """
         Set the direction of the robot to DIRECTION.
 
@@ -330,7 +332,7 @@ class robot(object):
 
 
 
-class robot_a(robot):
+class Robot(BaseRobot):
     """
     A Robot is a BaseRobot with the standard movement strategy.
 
@@ -339,7 +341,7 @@ class robot_a(robot):
     randomly.
     """
 
-    def update_clean(self): ## Move function
+    def updatePositionAndClean(self): ## Move function
         """
         Simulate the passage of a single time-step.
 
@@ -348,18 +350,18 @@ class robot_a(robot):
         """
 
         ## Check if new position exist
-        if self.room.pos_exist(self.current_pos.new_pos(self.angle, self.speed)) == False:
-            self.angle = self.set_angle() # not found, set new angle
+        if self.room.isPositionInRoom(self.current_pos.getNewPosition(self.angle, self.speed)) == False:
+            self.angle = self.setRobotDirection() # not found, set new angle
 ##            print "Bang, hit the wall"
             return 
 
         else:
             ## move to new position, set current_pos
-            self.current_pos = self.current_pos.new_pos(self.angle, self.speed)
+            self.current_pos = self.current_pos.getNewPosition(self.angle, self.speed)
 
         ## Clean the current_pos tile
 
-        self.room.clean(self.current_pos)
+        self.room.cleanTileAtPosition(self.current_pos)
 ##        print "Tile cleaned"
         return 
 
@@ -395,20 +397,21 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
 
     sim_count = 0
     step = 0
-    the_room = room(width, height)
+    the_room = RectangularRoom(width, height)
 
     anim = ps11_visualize.RobotVisualization(num_robots, width, height)
 
     while sim_count < num_trials:
 
         
-        rob = robot_a(the_room, speed)
+        rob = Robot(the_room, speed)
 
         for i in range(num_trials):
 
 ##            print "\nStep {} ----------------".format(step)
 ##            print rob
 ##            print the_room
+            
             anim.update(the_room, rob)
             step += 1
 
@@ -419,7 +422,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
                 return step
 
             else:
-                rob.update_clean()
+                rob.updatePositionAndClean()
                 
 
 
@@ -431,9 +434,9 @@ def multiple_sim(amt):
     
 
     while amt >= count:
-        a = runSimulation(1, 1.0, 3, 4, 0.5, 1, robot_a)
-        b = runSimulation(1, 1.0, 3, 4, 0.5, 1, robot_a)
-        c = runSimulation(1, 1.0, 3, 4, 0.5, 1, robot_a)
+        a = runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
+        b = runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
+        c = runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
         result.append([a,b,c])
         count += 1
 
@@ -502,7 +505,7 @@ def showPlot4():
 
 # === Problem 5
 
-class RandomWalkRobot(robot):
+class RandomWalkRobot(Robot):
     """
     A RandomWalkRobot is a robot with the "random walk" movement
     strategy: it chooses a new direction at random after each
@@ -524,20 +527,20 @@ def showPlot5():
 def get_class_info():
     '''return dir() class info for method '''
 
-    print "\nClass position: "
-    print dir(position)
-    print "\nClass room: "
-    print dir(room)
-    print "\nClass robot: "
-    print dir(robot)
-    print "\nClass robot_a: "
-    print dir(robot_a)
+    print "\nClass Position: "
+    print dir(Position)
+    print "\nClass RectangularRoom: "
+    print dir(RectangularRoom)
+    print "\nClass BaseRobot: "
+    print dir(BaseRobot)
+    print "\nClass Robot: "
+    print dir(Robot)
 
 
 if __name__ == "__main__":
-    get_class_info()
-    pass
-##    runSimulation(1, 1.0, 3, 4, 0.5, 1, robot_a)
+##    get_class_info()
+    
+    runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
 
 ##    a = multiple_sim(500)
 ##    
