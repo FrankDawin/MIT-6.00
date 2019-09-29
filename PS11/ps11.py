@@ -521,9 +521,23 @@ def showPlot5():
 
 
 
+def get_class_info():
+    '''return dir() class info for method '''
+
+    print "\nClass position: "
+    print dir(position)
+    print "\nClass room: "
+    print dir(room)
+    print "\nClass robot: "
+    print dir(robot)
+    print "\nClass robot_a: "
+    print dir(robot_a)
+
 
 if __name__ == "__main__":
-    runSimulation(1, 1.0, 3, 4, 0.5, 1, robot_a)
+    get_class_info()
+    pass
+##    runSimulation(1, 1.0, 3, 4, 0.5, 1, robot_a)
 
 ##    a = multiple_sim(500)
 ##    
