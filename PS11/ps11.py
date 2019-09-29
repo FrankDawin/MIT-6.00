@@ -398,6 +398,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     sim_count = 0
     step = 0
     the_room = RectangularRoom(width, height)
+    robot_list = []
 
     anim = ps11_visualize.RobotVisualization(num_robots, width, height)
 
@@ -405,6 +406,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
 
         
         rob = Robot(the_room, speed)
+        robot_list.append(rob) ## The program need a list of instance robot to work
 
         for i in range(num_trials):
 
@@ -412,7 +414,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
 ##            print rob
 ##            print the_room
             
-            anim.update(the_room, rob)
+            anim.update(the_room, robot_list)
             step += 1
 
             if min_coverage <= the_room.get_coverage():
@@ -540,7 +542,7 @@ def get_class_info():
 if __name__ == "__main__":
 ##    get_class_info()
     
-    runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
+    runSimulation(1, 1.0, 8, 14, 0.5, 1, Robot)
 
 ##    a = multiple_sim(500)
 ##    
