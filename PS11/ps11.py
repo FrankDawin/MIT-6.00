@@ -392,38 +392,45 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     visualize: a boolean (True to turn on visualization)
     """
 
-    
-    the_room = RectangularRoom(width, height)
-    robot_list = []
-    robot_count = 1
-
     result = []
 
+    
+    for y in range(num_trials):
 
-    while robot_count <= num_robots:
-        
-        robot_list.append(Robot(the_room, speed)) 
-        robot_count += 1
+        switch = True
+
+        the_room = RectangularRoom(width, height)
+        robot_list = []
+        ticks = 0
 
 
-    if visualize == True:
-        anim = ps11_visualize.RobotVisualization(num_robots, width, height)
+        for t in range(num_robots):
+            robot_list.append(Robot(the_room, speed)) 
 
-
-    while True:
 
         if visualize == True:
-            anim.update(the_room, robot_list)
+            anim = ps11_visualize.RobotVisualization(num_robots, width, height)
 
-        if min_coverage <= the_room.get_coverage():
-            if visualize == True:
-                anim.done()
-            return False
 
-        else:
-            for i in robot_list:
-                i.updatePositionAndClean()
+        while switch == True:
+
+            ticks += 1
             
+            if visualize == True:
+                anim.update(the_room, robot_list)
+
+            if min_coverage <= the_room.get_coverage():
+                if visualize == True:
+                    anim.done()
+                result.append([ticks])
+                switch = False
+
+            else:
+                for i in robot_list:
+                    i.updatePositionAndClean()
+            
+    return result
+
 
 
 def multiple_sim(amt):
@@ -476,31 +483,92 @@ def computeMeans(list_of_lists):
     return means
 
 
+
 # === Problem 4
 def showPlot1():
     """
     Produces a plot showing dependence of cleaning time on room size.
     """
-    # TODO: Your code goes here
+
+    size = [5,10,15,20,25]
+
+    for i in size:
+        a = runSimulation(1, 1.0, i, i, 0.75, 10, Robot)
+        b = computeMeans(a)
+        pylab.plot(i, b, "b.")
+
+        
+    pylab.title("Cleaning time and room size dependency")
+    pylab.xlabel("Room size")
+    pylab.ylabel("Step")
+    pylab.show()
+
+
 
 def showPlot2():
     """
     Produces a plot showing dependence of cleaning time on number of robots.
     """
-    # TODO: Your code goes here
+    
+
+    for i in range(1,10):
+        a = runSimulation(i, 1.0, 25, 25, 0.75, 10, Robot)
+        b = computeMeans(a)
+        pylab.plot(i, b, "b.")
+
+        
+    pylab.title("75% coverage, 25x25 room, various amount of robots")
+    pylab.xlabel("Number of robots")
+    pylab.ylabel("Step")
+    pylab.show()
+
+
 
 def showPlot3():
     """
     Produces a plot showing dependence of cleaning time on room shape.
     """
-    # TODO: Your code goes here
+
+    ratio = lambda x,y: y/x
+    size = [[20,20],[25,16],[40,10],[50,8],[80,5],[100,4]]
+    
+    for i in size:
+        a = runSimulation(2, 1.0, i[0], i[1], 0.75, 10, Robot)
+        b = computeMeans(a)
+        pylab.plot(ratio(i[0],i[1]), b, "b.")
+        print ratio(i[0],i[1])
+
+        
+    pylab.title("75% coverage, 2 robots, various size of rooms")
+    pylab.xlabel("Ratio")
+    pylab.ylabel("Step")
+    pylab.show()
+
+
+
 
 def showPlot4():
     """
     Produces a plot showing cleaning time vs. percentage cleaned, for
     each of 1-5 robots.
     """
-    # TODO: Your code goes here
+
+    coverage_time = [0.5, 0.6, 0.7, 0.8, 0.9]
+    
+    for i in range(1,5):
+        for y in coverage_time:
+            
+            a = runSimulation(i, 1.0, 25, 25, y, 1, Robot)
+            b = computeMeans(a)
+            pylab.plot(i, y, "b.")
+
+        
+    pylab.title("variable coverage, 25x25 room, 1 to 5 robots")
+    pylab.xlabel("Percentage cleaned")
+    pylab.ylabel("Step")
+    pylab.show()
+
+
 
 
 # === Problem 5
@@ -512,6 +580,7 @@ class RandomWalkRobot(Robot):
     time-step.
     """
     # TODO: Your code goes here
+
 
 
 # === Problem 6
@@ -539,6 +608,6 @@ def get_class_info():
 
 if __name__ == "__main__":
 
-    runSimulation(5, 1.0, 10, 10, 0.75, 1, Robot, True)
-
-    
+##    a = runSimulation(1, 1.0, 10, 10, 1, 25, Robot)
+##    print computeMeans(a)
+    showPlot4()
