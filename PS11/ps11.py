@@ -96,8 +96,8 @@ class RectangularRoom(object):
 
     def __str__(self):
 
-##        print "width: {}, height: {}".format(self.width, self.height)
-##        print "self.tiles: {}".format(self.tiles)
+        print "width: {}, height: {}".format(self.width, self.height)
+        print "self.tiles: {}".format(self.tiles)
         print "clean/total: {}/{}".format(self.getNumCleanedTiles(), self.getNumTiles())
         return ""
     
@@ -108,8 +108,8 @@ class RectangularRoom(object):
 
         result = {}
 
-        for i in range(1, self.width+1):
-            for y in range(1, self.height+1):
+        for i in range(0, self.width):
+            for y in range(0, self.height):
                 result[(i,y)] = False
 
         return result
@@ -221,8 +221,7 @@ class RectangularRoom(object):
         returns: True if POS is in the room, False otherwise.
         """
 
-    
-        if self.tiles.get((int(pos.x),int(pos.y))) == None:
+        if self.tiles.get((int(pos.x),int(pos.y))) == None or pos.x < 0 or pos.y < 0:
             
             return False
         
@@ -271,7 +270,7 @@ class BaseRobot(object):
     def __str__(self):
         '''Print base data'''
 
-##        print "speed: {}".format(self.speed)
+        print "speed: {}".format(self.speed)
         print "angle: {}".format(self.angle)
         print "current_pos: {}, {}".format(self.current_pos.x,self.current_pos.y)
         
@@ -394,38 +393,37 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     """
 
     
-
-    sim_count = 0
-    step = 0
     the_room = RectangularRoom(width, height)
     robot_list = []
+    robot_count = 1
 
-    anim = ps11_visualize.RobotVisualization(num_robots, width, height)
+    result = []
 
-    while sim_count < num_trials:
 
+    while robot_count <= num_robots:
         
-        rob = Robot(the_room, speed)
-        robot_list.append(rob) ## The program need a list of instance robot to work
+        robot_list.append(Robot(the_room, speed)) 
+        robot_count += 1
 
-        for i in range(num_trials):
 
-##            print "\nStep {} ----------------".format(step)
-##            print rob
-##            print the_room
-            
+    if visualize == True:
+        anim = ps11_visualize.RobotVisualization(num_robots, width, height)
+
+
+    while True:
+
+        if visualize == True:
             anim.update(the_room, robot_list)
-            step += 1
 
-            if min_coverage <= the_room.get_coverage():
-                sim_count += 1
-                the_room.reset_room()
+        if min_coverage <= the_room.get_coverage():
+            if visualize == True:
                 anim.done()
-                return step
+            return False
 
-            else:
-                rob.updatePositionAndClean()
-                
+        else:
+            for i in robot_list:
+                i.updatePositionAndClean()
+            
 
 
 def multiple_sim(amt):
@@ -540,11 +538,7 @@ def get_class_info():
 
 
 if __name__ == "__main__":
-##    get_class_info()
-    
-    runSimulation(1, 1.0, 8, 14, 0.5, 1, Robot)
 
-##    a = multiple_sim(500)
-##    
-##    print computeMeans(a)
+    runSimulation(5, 1.0, 10, 10, 0.75, 1, Robot, True)
+
     
