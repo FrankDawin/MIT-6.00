@@ -561,7 +561,31 @@ class RandomWalkRobot(Robot):
     strategy: it chooses a new direction at random after each
     time-step.
     """
-    # TODO: Your code goes here
+
+    def updatePositionAndClean(self): 
+        """
+        Simulate the passage of a single time-step.
+
+        Move the robot to a new position and mark the tile it is on as having
+        been cleaned.
+        """
+
+        ## Check if new position exist
+        if self.room.isPositionInRoom(self.current_pos.getNewPosition(self.angle, self.speed)) == False:
+            self.angle = self.setRobotDirection() # not found, set new angle
+            return 
+
+        else:
+            ## move to new position, set current_pos
+##            self.angle = self.setRobotDirection()
+##            self.current_pos = self.current_pos.getNewPosition(self.angle, self.speed)
+            self.current_pos = self.current_pos.getNewPosition(self.setRobotDirection(), self.speed)
+            
+
+        ## Clean the current_pos tile
+        self.room.cleanTileAtPosition(self.current_pos)
+        return 
+
 
 
 
@@ -571,7 +595,7 @@ def showPlot5():
     """
     Produces a plot comparing the two robot strategies.
     """
-    # TODO: Your code goes here
+   
 
 
 
@@ -579,7 +603,7 @@ def showPlot5():
 
 if __name__ == "__main__":
 
-##    a = runSimulation(1, 1.0, 10, 10, 1, 25, Robot)
+    runSimulation(1, 1.0, 10, 10, 1, 1, RandomWalkRobot, True)
 ##    print computeMeans(a)
-    showPlot4()
+##    showPlot5()
 ##    print dir(pylab)
