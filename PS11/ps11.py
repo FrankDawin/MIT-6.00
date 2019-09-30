@@ -431,26 +431,6 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
             
     return result
 
-
-
-def multiple_sim(amt):
-    '''Run multiple roomba simulation'''
-
-    result = []
-    count = 0
-    
-
-    while amt >= count:
-        a = runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
-        b = runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
-        c = runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
-        result.append([a,b,c])
-        count += 1
-
-    print result
-
-    return result
-    
     
 
 # === Provided function
@@ -497,7 +477,6 @@ def showPlot1():
         b = computeMeans(a)
         pylab.plot(i, b, "b.")
 
-        
     pylab.title("Cleaning time and room size dependency")
     pylab.xlabel("Room size")
     pylab.ylabel("Step")
@@ -553,17 +532,20 @@ def showPlot4():
     each of 1-5 robots.
     """
 
-    coverage_time = [0.5, 0.6, 0.7, 0.8, 0.9]
+    color_list = ['r.', 'g.', 'b.', 'c.', 'm.']
+    coverage_time = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
     
-    for i in range(1,5):
+    for i in range(1,6):
+    
         for y in coverage_time:
             
             a = runSimulation(i, 1.0, 25, 25, y, 1, Robot)
             b = computeMeans(a)
-            pylab.plot(i, y, "b.")
+            pylab.plot(y, b, color_list[i-1])
+            print i, y, b
 
         
-    pylab.title("variable coverage, 25x25 room, 1 to 5 robots")
+    pylab.title("Coverage percentage vs time, 25x25 room, 1 to 5 robots")
     pylab.xlabel("Percentage cleaned")
     pylab.ylabel("Step")
     pylab.show()
@@ -593,17 +575,6 @@ def showPlot5():
 
 
 
-def get_class_info():
-    '''return dir() class info for method '''
-
-    print "\nClass Position: "
-    print dir(Position)
-    print "\nClass RectangularRoom: "
-    print dir(RectangularRoom)
-    print "\nClass BaseRobot: "
-    print dir(BaseRobot)
-    print "\nClass Robot: "
-    print dir(Robot)
 
 
 if __name__ == "__main__":
@@ -611,3 +582,4 @@ if __name__ == "__main__":
 ##    a = runSimulation(1, 1.0, 10, 10, 1, 25, Robot)
 ##    print computeMeans(a)
     showPlot4()
+##    print dir(pylab)
