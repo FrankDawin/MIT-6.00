@@ -96,8 +96,8 @@ class RectangularRoom(object):
 
     def __str__(self):
 
-##        print "width: {}, height: {}".format(self.width, self.height)
-##        print "self.tiles: {}".format(self.tiles)
+        print "width: {}, height: {}".format(self.width, self.height)
+        print "self.tiles: {}".format(self.tiles)
         print "clean/total: {}/{}".format(self.getNumCleanedTiles(), self.getNumTiles())
         return ""
     
@@ -108,8 +108,8 @@ class RectangularRoom(object):
 
         result = {}
 
-        for i in range(1, self.width+1):
-            for y in range(1, self.height+1):
+        for i in range(0, self.width):
+            for y in range(0, self.height):
                 result[(i,y)] = False
 
         return result
@@ -221,8 +221,7 @@ class RectangularRoom(object):
         returns: True if POS is in the room, False otherwise.
         """
 
-    
-        if self.tiles.get((int(pos.x),int(pos.y))) == None:
+        if self.tiles.get((int(pos.x),int(pos.y))) == None or pos.x < 0 or pos.y < 0:
             
             return False
         
@@ -271,7 +270,7 @@ class BaseRobot(object):
     def __str__(self):
         '''Print base data'''
 
-##        print "speed: {}".format(self.speed)
+        print "speed: {}".format(self.speed)
         print "angle: {}".format(self.angle)
         print "current_pos: {}, {}".format(self.current_pos.x,self.current_pos.y)
         
@@ -393,59 +392,45 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     visualize: a boolean (True to turn on visualization)
     """
 
+    result = []
+
     
+    for y in range(num_trials):
 
-    sim_count = 0
-    step = 0
-    the_room = RectangularRoom(width, height)
-    robot_list = []
+        switch = True
 
-    anim = ps11_visualize.RobotVisualization(num_robots, width, height)
+        the_room = RectangularRoom(width, height)
+        robot_list = []
+        ticks = 0
 
-    while sim_count < num_trials:
 
-        
-        rob = Robot(the_room, speed)
-        robot_list.append(rob) ## The program need a list of instance robot to work
+        for t in range(num_robots):
+            robot_list.append(robot_type(the_room, speed)) 
 
-        for i in range(num_trials):
 
-##            print "\nStep {} ----------------".format(step)
-##            print rob
-##            print the_room
+        if visualize == True:
+            anim = ps11_visualize.RobotVisualization(num_robots, width, height)
+
+
+        while switch == True:
+
+            ticks += 1
             
-            anim.update(the_room, robot_list)
-            step += 1
+            if visualize == True:
+                anim.update(the_room, robot_list)
 
             if min_coverage <= the_room.get_coverage():
-                sim_count += 1
-                the_room.reset_room()
-                anim.done()
-                return step
+                if visualize == True:
+                    anim.done()
+                result.append([ticks])
+                switch = False
 
             else:
-                rob.updatePositionAndClean()
-                
-
-
-def multiple_sim(amt):
-    '''Run multiple roomba simulation'''
-
-    result = []
-    count = 0
-    
-
-    while amt >= count:
-        a = runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
-        b = runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
-        c = runSimulation(1, 1.0, 3, 4, 0.5, 1, Robot)
-        result.append([a,b,c])
-        count += 1
-
-    print result
-
+                for i in robot_list:
+                    i.updatePositionAndClean()
+            
     return result
-    
+
     
 
 # === Provided function
@@ -478,42 +463,129 @@ def computeMeans(list_of_lists):
     return means
 
 
+
 # === Problem 4
 def showPlot1():
     """
     Produces a plot showing dependence of cleaning time on room size.
     """
-    # TODO: Your code goes here
+
+    size = [5,10,15,20,25]
+
+    for i in size:
+        a = runSimulation(1, 1.0, i, i, 0.75, 10, Robot)
+        b = computeMeans(a)
+        pylab.plot(i, b, "b.")
+
+    pylab.title("Cleaning time and room size dependency")
+    pylab.xlabel("Room size")
+    pylab.ylabel("Step")
+    pylab.show()
+
+
 
 def showPlot2():
     """
     Produces a plot showing dependence of cleaning time on number of robots.
     """
-    # TODO: Your code goes here
+    
+
+    for i in range(1,10):
+        a = runSimulation(i, 1.0, 25, 25, 0.75, 10, Robot)
+        b = computeMeans(a)
+        pylab.plot(i, b, "b.")
+
+        
+    pylab.title("75% coverage, 25x25 room, various amount of robots")
+    pylab.xlabel("Number of robots")
+    pylab.ylabel("Step")
+    pylab.show()
+
+
 
 def showPlot3():
     """
     Produces a plot showing dependence of cleaning time on room shape.
     """
-    # TODO: Your code goes here
+
+    ratio = lambda x,y: y/x
+    size = [[20,20],[25,16],[40,10],[50,8],[80,5],[100,4]]
+    
+    for i in size:
+        a = runSimulation(2, 1.0, i[0], i[1], 0.75, 10, Robot)
+        b = computeMeans(a)
+        pylab.plot(ratio(i[0],i[1]), b, "b.")
+        print ratio(i[0],i[1])
+
+        
+    pylab.title("75% coverage, 2 robots, various size of rooms")
+    pylab.xlabel("Ratio")
+    pylab.ylabel("Step")
+    pylab.show()
+
+
+
 
 def showPlot4():
     """
     Produces a plot showing cleaning time vs. percentage cleaned, for
     each of 1-5 robots.
     """
-    # TODO: Your code goes here
+
+    color_list = ['r.', 'g.', 'b.', 'c.', 'm.']
+    coverage_time = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+    
+    for i in range(1,6):
+    
+        for y in coverage_time:
+            
+            a = runSimulation(i, 1.0, 25, 25, y, 1, Robot)
+            b = computeMeans(a)
+            pylab.plot(y, b, color_list[i-1])
+            print i, y, b
+
+        
+    pylab.title("Coverage percentage vs time, 25x25 room, 1 to 5 robots")
+    pylab.xlabel("Percentage cleaned")
+    pylab.ylabel("Step")
+    pylab.show()
+
+
 
 
 # === Problem 5
 
-class RandomWalkRobot(Robot):
+class RandomWalkRobot(BaseRobot):
     """
     A RandomWalkRobot is a robot with the "random walk" movement
     strategy: it chooses a new direction at random after each
     time-step.
     """
-    # TODO: Your code goes here
+
+    def updatePositionAndClean(self): 
+        """
+        Simulate the passage of a single time-step.
+
+        Move the robot to a new position and mark the tile it is on as having
+        been cleaned.
+        """
+
+        ## Check if new position exist
+        if self.room.isPositionInRoom(self.current_pos.getNewPosition(self.angle, self.speed)) == False:
+            self.angle = self.setRobotDirection() # not found, set new angle
+            return 
+
+        else:
+            ## move to new position, set current_pos
+            self.current_pos = self.current_pos.getNewPosition(self.angle, self.speed)
+            self.angle = self.setRobotDirection()
+            
+
+        ## Clean the current_pos tile
+        self.room.cleanTileAtPosition(self.current_pos)
+        return 
+
+
 
 
 # === Problem 6
@@ -522,29 +594,32 @@ def showPlot5():
     """
     Produces a plot comparing the two robot strategies.
     """
-    # TODO: Your code goes here
+
+    robotz = [Robot,RandomWalkRobot]
+    color_list = ['r.', 'g.', 'b.', 'c.', 'm.']
+    coverage_time = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+    
+    for i in robotz:
+    
+        for y in coverage_time:
+            
+            a = runSimulation(1, 1.0, 20, 20, y, 10, i)
+            b = computeMeans(a)
+            pylab.plot(y, b, color_list[robotz.index(i)])
+
+        
+    pylab.title("Coverage percentage vs time, 10x10 room, 1 robot")
+    pylab.xlabel("Percentage cleaned")
+    pylab.ylabel("Step")
+    pylab.show()
 
 
-
-def get_class_info():
-    '''return dir() class info for method '''
-
-    print "\nClass Position: "
-    print dir(Position)
-    print "\nClass RectangularRoom: "
-    print dir(RectangularRoom)
-    print "\nClass BaseRobot: "
-    print dir(BaseRobot)
-    print "\nClass Robot: "
-    print dir(Robot)
 
 
 if __name__ == "__main__":
-##    get_class_info()
-    
-    runSimulation(1, 1.0, 8, 14, 0.5, 1, Robot)
 
-##    a = multiple_sim(500)
-##    
+##    a = runSimulation(2, 1.0, 5, 5, 0.75, 10, RandomWalkRobot)
+####    a = runSimulation(2, 1.0, 5, 5, 0.75, 1, Robot, True)
 ##    print computeMeans(a)
-    
+    showPlot5()
+##    print dir(pylab)
