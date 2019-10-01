@@ -34,7 +34,11 @@ class SimpleVirus(object):
         
         clearProb: Maximum clearance probability (a float between 0-1).
         """
-        # TODO
+        
+
+        self.maxBirthProb = maxBirthProb
+        self.clearProb = clearProb
+        
         
     def doesClear(self):
         """
@@ -45,7 +49,15 @@ class SimpleVirus(object):
         returns True with probability self.clearProb and otherwise returns
         False.
         """
-        # TODO
+
+        virus_random = random.random()
+        
+        if self.clearProb > virus_random:
+            return True
+
+        else:
+            return False
+        
     
     def reproduce(self, popDensity):
         """
@@ -68,6 +80,17 @@ class SimpleVirus(object):
         """
         # TODO
 
+        ## reproduce
+        self.maxBirthProb * (1 - popDensity)
+
+        if self.doesClear() == True:
+            return NoChildException()
+
+        else:
+            return SimpleVirus(self.maxBirthProb, self.clearProb)
+
+
+
 class SimplePatient(object):
     """
     Representation of a simplified patient. The patient does not take any drugs
@@ -84,7 +107,11 @@ class SimplePatient(object):
         
         maxPop: the  maximum virus population for this patient (an integer)
         """
-        # TODO
+
+        self.viruses = viruses ## is a list
+        self.maxPop = maxPop ## an int
+
+
 
     def getTotalPop(self):
         """
@@ -92,7 +119,10 @@ class SimplePatient(object):
 
         returns: The total virus population (an integer)
         """
-        # TODO        
+
+        return self.maxPop
+    
+
 
     def update(self):
         """
@@ -112,6 +142,17 @@ class SimplePatient(object):
         integer)
         """
         # TODO
+
+        ## Clear viruses from list who died
+        for i in self.viruses:
+            if i.doesClear() == True:
+                self.viruses.remove(i)
+        
+        ## pop density calculated
+
+        ## reproduce
+        
+        
 
 #
 # PROBLEM 2
