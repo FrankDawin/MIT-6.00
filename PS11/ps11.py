@@ -405,7 +405,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
 
 
         for t in range(num_robots):
-            robot_list.append(Robot(the_room, speed)) 
+            robot_list.append(robot_type(the_room, speed)) 
 
 
         if visualize == True:
@@ -555,7 +555,7 @@ def showPlot4():
 
 # === Problem 5
 
-class RandomWalkRobot(Robot):
+class RandomWalkRobot(BaseRobot):
     """
     A RandomWalkRobot is a robot with the "random walk" movement
     strategy: it chooses a new direction at random after each
@@ -577,9 +577,8 @@ class RandomWalkRobot(Robot):
 
         else:
             ## move to new position, set current_pos
-##            self.angle = self.setRobotDirection()
-##            self.current_pos = self.current_pos.getNewPosition(self.angle, self.speed)
-            self.current_pos = self.current_pos.getNewPosition(self.setRobotDirection(), self.speed)
+            self.current_pos = self.current_pos.getNewPosition(self.angle, self.speed)
+            self.angle = self.setRobotDirection()
             
 
         ## Clean the current_pos tile
@@ -595,15 +594,32 @@ def showPlot5():
     """
     Produces a plot comparing the two robot strategies.
     """
-   
 
+    robotz = [Robot,RandomWalkRobot]
+    color_list = ['r.', 'g.', 'b.', 'c.', 'm.']
+    coverage_time = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+    
+    for i in robotz:
+    
+        for y in coverage_time:
+            
+            a = runSimulation(1, 1.0, 20, 20, y, 10, i)
+            b = computeMeans(a)
+            pylab.plot(y, b, color_list[robotz.index(i)])
+
+        
+    pylab.title("Coverage percentage vs time, 10x10 room, 1 robot")
+    pylab.xlabel("Percentage cleaned")
+    pylab.ylabel("Step")
+    pylab.show()
 
 
 
 
 if __name__ == "__main__":
 
-    runSimulation(1, 1.0, 10, 10, 1, 1, RandomWalkRobot, True)
+##    a = runSimulation(2, 1.0, 5, 5, 0.75, 10, RandomWalkRobot)
+####    a = runSimulation(2, 1.0, 5, 5, 0.75, 1, Robot, True)
 ##    print computeMeans(a)
-##    showPlot5()
+    showPlot5()
 ##    print dir(pylab)
