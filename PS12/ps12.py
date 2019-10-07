@@ -333,20 +333,22 @@ class ResistantVirus(SimpleVirus):
         if getResistance(activeDrugs) == False: 
             return NoChildException()
 
-
+        
         # Reproduce
         if random.random() <= (self.maxBirthProb * (1 - popDensity)):
 
             ## mutation
+            new_resis = self.resistances.copy()
+            
             for i in activeDrugs:
 
-                if self.resistances[i] == False and random.random() <= (1 - self.mutProb):
-                    self.resistances[i] = True
+                if new_resis[i] == False and random.random() <= (1 - self.mutProb):
+                    new_resis[i] = True
 
-                elif self.resistances[i] == True and random.random() <= (1 - self.mutProb):
-                    self.resistances[i] = False
+                elif new_resis[i] == True and random.random() <= (1 - self.mutProb):
+                    new_resis[i] = False
 
-                return ResistantVirus(self.maxBirthProb, self.clearProb, self.resistances, self.mutProb)
+                return ResistantVirus(self.maxBirthProb, self.clearProb, new_resis, self.mutProb)
        
         
 
@@ -369,6 +371,11 @@ class Patient(SimplePatient):
         maxPop: the  maximum virus population for this patient (an integer)
         """
         # TODO
+
+        self.viruses = viruses ## is a list, all virus instance
+        self.maxPop = maxPop ## an int, max amount of virus in patient
+
+        
         
     def addPrescription(self, newDrug):
         """
@@ -382,6 +389,13 @@ class Patient(SimplePatient):
         """
         # TODO
 
+        self.drugs_list = []
+        self.drugs_list.append(newDrug)
+        
+        return self.drugs_list
+        
+
+
     def getPrescriptions(self):
         """
         Returns the drugs that are being administered to this patient.
@@ -390,6 +404,11 @@ class Patient(SimplePatient):
         patient.
         """
         # TODO
+
+
+        return self.drugs_list
+
+    
         
     def getResistPop(self, drugResist):
         """
@@ -403,6 +422,9 @@ class Patient(SimplePatient):
         drugs in the drugResist list.
         """
         # TODO
+
+
+        
 
     def update(self):
         """
@@ -424,6 +446,8 @@ class Patient(SimplePatient):
         integer)
         """
         # TODO
+
+
 
 #
 # PROBLEM 4
