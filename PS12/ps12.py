@@ -328,22 +328,26 @@ class ResistantVirus(SimpleVirus):
         """
         # TODO
 
-        if getResistance(activeDrugs): ## Look if virus is resistance to drug
+
+        # Look if virus is resistance to drug
+        if getResistance(activeDrugs) == False: 
             return NoChildException()
 
-            
-        self.maxBirthProb * (1 - popDensity)
 
+        # Reproduce
+        if random.random() <= (self.maxBirthProb * (1 - popDensity)):
 
-        if self.doesClear() == True:
-            return NoChildException()
+            ## mutation
+            for i in activeDrugs:
 
-        ## mutation
+                if self.resistances[i] == False and random.random() <= (1 - self.mutProb):
+                    self.resistances[i] = True
 
-##        1 - self.mutProb ## virus child probability to keep resistance gene
-##
-##        else:
-##            return ResistantVirus(self.maxBirthProb, self.clearProb, self.resistances, self.mutProb)
+                elif self.resistances[i] == True and random.random() <= (1 - self.mutProb):
+                    self.resistances[i] = False
+
+                return ResistantVirus(self.maxBirthProb, self.clearProb, self.resistances, self.mutProb)
+       
         
 
             
