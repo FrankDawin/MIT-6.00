@@ -108,8 +108,16 @@ class SimplePatient(object):
         maxPop: the  maximum virus population for this patient (an integer)
         """
 
-        self.viruses = viruses ## is a list
-        self.maxPop = maxPop ## an int
+        self.viruses = viruses ## is a list, all virus instance
+        self.maxPop = maxPop ## an int, max amount of virus in patient
+
+
+    def __str__(self):
+
+        print "Viruses len {}".format(len(self.viruses))
+        print "maxPop int {}".format(self.maxPop)
+
+        return ""
 
 
 
@@ -120,7 +128,7 @@ class SimplePatient(object):
         returns: The total virus population (an integer)
         """
 
-        return self.maxPop
+        return len(self.viruses)
     
 
 
@@ -143,16 +151,30 @@ class SimplePatient(object):
         """
         # TODO
 
+        
+
         ## Clear viruses from list who died
         for i in self.viruses:
             if i.doesClear() == True:
                 self.viruses.remove(i)
-        
-        ## pop density calculated
 
-        ## reproduce
+        if len(self.viruses) <= 0:
+            return "Patient cured"
         
+        ## Pop density calculated
+        self.popDensity = self.getTotalPop() / self.maxPop       
+
+        ## Reproduce
         
+        repro = self.viruses[0].maxBirthProb * (1 - self.popDensity)
+
+        for i in range(1, int(repro)):
+            self.viruses.append(SimpleVirus(self.viruses[0].maxBirthProb, self.viruses[0].clearProb))
+
+
+        return self.viruses
+
+    
 
 #
 # PROBLEM 2
@@ -166,7 +188,31 @@ def problem2():
     Instantiates a patient, runs a simulation for 300 timesteps, and plots the
     total virus population as a function of time.    
     """
-    # TODO    
+
+    infection = []
+    progression = []
+    
+    for i in range(0,100):
+        infection.append(SimpleVirus(0.1, 0.05))
+
+    patient_zero = SimplePatient(infection, 1000)
+
+        
+    for i in range(0, 300):
+        patient_zero.update()
+        progression.append(len(patient_zero.viruses))
+        pylab.plot(i, len(patient_zero.viruses), "b.")
+
+        if len(patient_zero.viruses) <= 0:
+            break
+
+        
+    pylab.title("Virus propagation")
+    pylab.xlabel("Time")
+    pylab.ylabel("Infection in body")
+    pylab.show()
+
+
     
 #
 # PROBLEM 3
@@ -195,6 +241,12 @@ class ResistantVirus(SimpleVirus):
         the probability of the offspring acquiring or losing resistance to a drug.        
         """
         # TODO
+
+        self.maxBirthProb = maxBirthProb 
+        self.clearProb = clearProb 
+        self.resistances = resistances ## dict
+        self.mutProb = mutProb  ## float
+        
         
     def getResistance(self, drug):
         """
@@ -208,6 +260,8 @@ class ResistantVirus(SimpleVirus):
         otherwise.
         """
         # TODO
+        
+        
         
     def reproduce(self, popDensity, activeDrugs):
         """
@@ -388,3 +442,6 @@ def problem7():
     a simulations for which drugs are administered simultaneously.        
     """
     # TODO
+
+
+print problem2()
