@@ -3,10 +3,12 @@
 # Name:
 # Collaborators:
 # Time:
-
+from __future__ import division
 import numpy
 import random
 import pylab
+
+
 
 class NoChildException(Exception):
     """
@@ -24,6 +26,7 @@ class SimpleVirus(object):
     """
     Representation of a simple virus (does not model drug effects/resistance).
     """
+
     
     def __init__(self, maxBirthProb, clearProb):
         """
@@ -38,6 +41,7 @@ class SimpleVirus(object):
 
         self.maxBirthProb = maxBirthProb
         self.clearProb = clearProb
+
         
         
     def doesClear(self):
@@ -58,6 +62,7 @@ class SimpleVirus(object):
         else:
             return False
         
+
     
     def reproduce(self, popDensity):
         """
@@ -81,14 +86,13 @@ class SimpleVirus(object):
         # TODO
 
         ## reproduce
-        self.maxBirthProb * (1 - popDensity)
-
-        if self.doesClear() == True:
-            return NoChildException()
-
-        else:
+        if random.random() <= (self.maxBirthProb * (1 - popDensity)):
             return SimpleVirus(self.maxBirthProb, self.clearProb)
+            
+        else:
+            raise NoChildException()
 
+        
 
 
 class SimplePatient(object):
@@ -151,28 +155,42 @@ class SimplePatient(object):
         """
         # TODO
 
-        
+        new_virus = []
+
+        ## Check for virus saturation
+        if len(self.viruses) > self.maxPop:
+            print "Patient is dead"
+
 
         ## Clear viruses from list who died
         for i in self.viruses:
             if i.doesClear() == True:
                 self.viruses.remove(i)
 
+
+        ## Verify that viruses remains
         if len(self.viruses) <= 0:
             return "Patient cured"
+
         
         ## Pop density calculated
-        self.popDensity = self.getTotalPop() / self.maxPop       
+        self.popDensity = self.getTotalPop() / float(self.maxPop)       
 
-        ## Reproduce
+        for i in self.viruses:
+
+            try:
+                new_virus.append(i.reproduce(self.popDensity))
+
+            except:
+                NoChildException
+                continue
+
+        ## Merge two lists
+        self.viruses = self.viruses + new_virus
         
-        repro = self.viruses[0].maxBirthProb * (1 - self.popDensity)
-
-        for i in range(1, int(repro)):
-            self.viruses.append(SimpleVirus(self.viruses[0].maxBirthProb, self.viruses[0].clearProb))
-
-
+        
         return self.viruses
+        
 
     
 
@@ -260,7 +278,13 @@ class ResistantVirus(SimpleVirus):
         otherwise.
         """
         # TODO
-        
+
+        try:
+            return self.resistances[drug] 
+
+        except:
+            return "Drug not in dictionnary"
+
         
         
     def reproduce(self, popDensity, activeDrugs):
@@ -303,6 +327,25 @@ class ResistantVirus(SimpleVirus):
         NoChildException if this virus particle does not reproduce.         
         """
         # TODO
+
+        if getResistance(activeDrugs): ## Look if virus is resistance to drug
+            return NoChildException()
+
+            
+        self.maxBirthProb * (1 - popDensity)
+
+
+        if self.doesClear() == True:
+            return NoChildException()
+
+        ## mutation
+
+##        1 - self.mutProb ## virus child probability to keep resistance gene
+##
+##        else:
+##            return ResistantVirus(self.maxBirthProb, self.clearProb, self.resistances, self.mutProb)
+        
+
             
 class Patient(SimplePatient):
     """
