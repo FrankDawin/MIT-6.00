@@ -389,10 +389,10 @@ class Patient(SimplePatient):
         """
         # TODO
 
-        self.drugs_list = []
-        self.drugs_list.append(newDrug)
+        self.drugResist = []
+        self.drugResist.append(newDrug)
         
-        return self.drugs_list
+        return self.drugResist
         
 
 
@@ -406,7 +406,7 @@ class Patient(SimplePatient):
         # TODO
 
 
-        return self.drugs_list
+        return self.drugResist
 
     
         
@@ -423,7 +423,14 @@ class Patient(SimplePatient):
         """
         # TODO
 
+        count = 0
 
+        for i in self.viruses:
+            if all(value == True for value in i.resistances.values()):
+                count += 1
+
+        return count
+                
         
 
     def update(self):
@@ -447,6 +454,41 @@ class Patient(SimplePatient):
         """
         # TODO
 
+        new_virus = []
+
+        ## Check for virus saturation
+        if len(self.viruses) > self.maxPop:
+            print "Patient is dead"
+
+
+        ## Clear viruses from list who died
+        for i in self.viruses:
+            if i.doesClear() == True:
+                self.viruses.remove(i)
+
+
+        ## Verify that viruses remains
+        if len(self.viruses) <= 0:
+            return "Patient cured"
+
+        
+        ## Pop density calculated
+        self.popDensity = self.getTotalPop() / float(self.maxPop)       
+
+        for i in self.viruses:
+
+            try:
+                new_virus.append(i.reproduce(self.popDensity))
+
+            except:
+                NoChildException
+                continue
+
+        ## Merge two lists
+        self.viruses = self.viruses + new_virus
+        
+        
+        return self.viruses
 
 
 #
