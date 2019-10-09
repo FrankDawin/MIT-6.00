@@ -7,6 +7,7 @@ from __future__ import division
 import numpy
 import random
 import pylab
+from time import *
 
 
 
@@ -326,16 +327,18 @@ class ResistantVirus(SimpleVirus):
         maxBirthProb and clearProb values as this virus. Raises a
         NoChildException if this virus particle does not reproduce.         
         """
-        # TODO
-
+        # TODO  ## bug here
+        print "reproduce() called"
 
         # Look if virus is resistance to drug
-        if getResistance(activeDrugs) == False: 
+        if getResistance(activeDrugs) == False:
+            print "no child"
             return NoChildException()
 
         
         # Reproduce
         if random.random() <= (self.maxBirthProb * (1 - popDensity)):
+            print "got here"
 
             ## mutation
             new_resis = self.resistances.copy()
@@ -344,9 +347,11 @@ class ResistantVirus(SimpleVirus):
 
                 if new_resis[i] == False and random.random() <= (1 - self.mutProb):
                     new_resis[i] = True
+                    print "not resistant, random.random good" 
 
                 elif new_resis[i] == True and random.random() <= (1 - self.mutProb):
                     new_resis[i] = False
+                    print "Resistant, random.random good" 
 
                 return ResistantVirus(self.maxBirthProb, self.clearProb, new_resis, self.mutProb)
        
@@ -478,7 +483,8 @@ class Patient(SimplePatient):
         for i in self.viruses:
 
             try:
-                new_virus.append(i.reproduce(self.popDensity))
+                new_virus.append(i.reproduce(self.popDensity, self.drugResist))
+                print "yes"
 
             except:
                 NoChildException
@@ -506,6 +512,40 @@ def problem4():
     vs. time are plotted
     """
     # TODO
+
+
+    infection = []
+    progression = []
+    
+    for i in range(0,100):
+        infection.append(ResistantVirus(0.1, 0.05, {"guttagonol":False}, 0.005))
+
+    patient_zero = Patient(infection, 1000)
+
+        
+    for i in range(0, 150):
+        patient_zero.update()
+        progression.append(len(patient_zero.viruses))
+        pylab.plot(i, len(patient_zero.viruses), "b.")
+
+##        if len(patient_zero.viruses) <= 0:
+##            break
+
+    patient_zero.addPrescription("guttagonol")
+
+    for i in range(150, 300):
+        patient_zero.update()
+        progression.append(len(patient_zero.viruses))
+        pylab.plot(i, len(patient_zero.viruses), "r.")
+
+##        if len(patient_zero.viruses) <= 0:
+##            break
+
+        
+    pylab.title("Virus propagation")
+    pylab.xlabel("Time")
+    pylab.ylabel("Infection in body")
+    pylab.show()
 
 #
 # PROBLEM 5
@@ -557,4 +597,5 @@ def problem7():
     # TODO
 
 
-print problem2()
+print problem4()
+
