@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1c1d7bd3-3839-4ad2-87b3-37165ff53ac8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/PS12/ps12.py" beforeDir="false" afterPath="$PROJECT_DIR$/PS12/ps12.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/PS12/ps12.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-16">
+              <caret line="435" column="42" lean-forward="true" selection-start-line="435" selection-start-column="42" selection-end-line="435" selection-end-column="42" />
+              <folding>
+                <element signature="n#!!doc" />
+                <element signature="e#190#446#2" />
+                <element signature="e#500#590#1" />
+                <element signature="e#654#955#1" />
+                <element signature="e#1094#1393#1" />
+                <element signature="e#1609#2572#1" />
+                <element signature="e#2855#3005#1" />
+                <element signature="e#3060#3359#1" />
+                <element signature="e#3686#3809#1" />
+                <element signature="e#3881#4572#1" />
+                <element signature="e#5480#6290#0" />
+                <element signature="e#6354#6427#1" />
+                <element signature="e#6516#7293#1" />
+                <element signature="e#7537#8028#0" />
+                <element signature="e#8106#10066#1" />
+                <element signature="e#11079#11240#1" />
+                <element signature="e#11295#11714#1" />
+                <element signature="e#12819#13399#0" />
+                <element signature="e#12819#13213#1" />
+                <element signature="e#13457#14272#1" />
+                <element signature="e#15211#15524#1" />
+                <element signature="e#16436#16793#0" />
+                <element signature="e#16836#17227#0" />
+                <element signature="e#17271#17648#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>drugResist</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/PS12/ps12.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="14" />
+    <option name="y" value="9" />
+    <option name="width" value="1260" />
+    <option name="height" value="944" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="MIT-6.00" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MIT-6.00" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MIT-6.00" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MIT-6.00" type="462c0819:PsiDirectoryNode" />
+              <item name="PS12" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="ps12" type="PythonConfigurationType" factoryName="Python">
+      <module name="MIT-6.00" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Python27\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PS12" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PS12/ps12.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1c1d7bd3-3839-4ad2-87b3-37165ff53ac8" name="Default Changelist" comment="" />
+      <created>1570648966847</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1570648966847</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4971165" weight="0.16136725" />
+      <window_info id="Structure" order="1" sideWeight="0.5028835" side_tool="true" weight="0.16136725" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection Results" weight="0.3298731" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32871974" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39907727" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3292232" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292232" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3292232" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3292232" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/PS12/ps12.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-16">
+          <caret line="435" column="42" lean-forward="true" selection-start-line="435" selection-start-column="42" selection-end-line="435" selection-end-column="42" />
+          <folding>
+            <element signature="n#!!doc" />
+            <element signature="e#190#446#2" />
+            <element signature="e#500#590#1" />
+            <element signature="e#654#955#1" />
+            <element signature="e#1094#1393#1" />
+            <element signature="e#1609#2572#1" />
+            <element signature="e#2855#3005#1" />
+            <element signature="e#3060#3359#1" />
+            <element signature="e#3686#3809#1" />
+            <element signature="e#3881#4572#1" />
+            <element signature="e#5480#6290#0" />
+            <element signature="e#6354#6427#1" />
+            <element signature="e#6516#7293#1" />
+            <element signature="e#7537#8028#0" />
+            <element signature="e#8106#10066#1" />
+            <element signature="e#11079#11240#1" />
+            <element signature="e#11295#11714#1" />
+            <element signature="e#12819#13399#0" />
+            <element signature="e#12819#13213#1" />
+            <element signature="e#13457#14272#1" />
+            <element signature="e#15211#15524#1" />
+            <element signature="e#16436#16793#0" />
+            <element signature="e#16836#17227#0" />
+            <element signature="e#17271#17648#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

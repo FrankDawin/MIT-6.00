@@ -10,18 +10,17 @@ import pylab
 from time import *
 
 
-
 class NoChildException(Exception):
     """
     NoChildException is raised by the reproduce() method in the SimpleVirus
     and ResistantVirus classes to indicate that a virus particle does not
     reproduce. You can use NoChildException as is, you do not need to
     modify/add any code.
-    """    
-
+    """
 #
 # PROBLEM 1
 #
+
 
 class SimpleVirus(object):
     """
@@ -93,8 +92,6 @@ class SimpleVirus(object):
         else:
             raise NoChildException()
 
-        
-
 
 class SimplePatient(object):
     """
@@ -113,9 +110,9 @@ class SimplePatient(object):
         maxPop: the  maximum virus population for this patient (an integer)
         """
 
-        self.viruses = viruses ## is a list, all virus instance
-        self.maxPop = maxPop ## an int, max amount of virus in patient
-
+        self.viruses = viruses  # is a list, all virus instance
+        self.maxPop = maxPop  # an int, max amount of virus in patient
+        self.popDensity = self.getTotalPop() / float(self.maxPop)
 
     def __str__(self):
 
@@ -123,8 +120,6 @@ class SimplePatient(object):
         print "maxPop int {}".format(self.maxPop)
 
         return ""
-
-
 
     def getTotalPop(self):
         """
@@ -134,8 +129,6 @@ class SimplePatient(object):
         """
 
         return len(self.viruses)
-    
-
 
     def update(self):
         """
@@ -158,23 +151,20 @@ class SimplePatient(object):
 
         new_virus = []
 
-        ## Check for virus saturation
+        # Check for virus saturation
         if len(self.viruses) > self.maxPop:
             print "Patient is dead"
 
-
-        ## Clear viruses from list who died
+        # Clear viruses from list who died
         for i in self.viruses:
-            if i.doesClear() == True:
+            if i.doesClear() is True:
                 self.viruses.remove(i)
 
-
-        ## Verify that viruses remains
+        # Verify that viruses remains
         if len(self.viruses) <= 0:
             return "Patient cured"
 
-        
-        ## Pop density calculated
+        # Pop density calculated
         self.popDensity = self.getTotalPop() / float(self.maxPop)       
 
         for i in self.viruses:
@@ -182,22 +172,17 @@ class SimplePatient(object):
             try:
                 new_virus.append(i.reproduce(self.popDensity))
 
-            except:
-                NoChildException
+            except NoChildException:
                 continue
 
-        ## Merge two lists
+        # Merge two lists
         self.viruses = self.viruses + new_virus
-        
-        
+
         return self.viruses
-        
-
-    
-
 #
 # PROBLEM 2
 #
+
 
 def problem2():
     """
@@ -232,11 +217,9 @@ def problem2():
     pylab.show()
 
 
-    
 #
 # PROBLEM 3
 #
-
 class ResistantVirus(SimpleVirus):
     """
     Representation of a virus which can have drug resistance.
@@ -263,10 +246,9 @@ class ResistantVirus(SimpleVirus):
 
         self.maxBirthProb = maxBirthProb 
         self.clearProb = clearProb 
-        self.resistances = resistances ## dict
-        self.mutProb = mutProb  ## float
-        
-        
+        self.resistances = resistances  # dict
+        self.mutProb = mutProb  # float
+
     def getResistance(self, drug):
         """
         Get the state of this virus particle's resistance to a drug. This method
@@ -286,8 +268,6 @@ class ResistantVirus(SimpleVirus):
         except:
             return "Drug not in dictionnary"
 
-        
-        
     def reproduce(self, popDensity, activeDrugs):
         """
         Stochastically determines whether this virus particle reproduces at a
@@ -328,19 +308,15 @@ class ResistantVirus(SimpleVirus):
         NoChildException if this virus particle does not reproduce.         
         """
         # TODO  ## bug here
-        print "reproduce() called"
 
         # Look if virus is resistance to drug
-        if getResistance(activeDrugs) == False:
-            print "no child"
+        if self.getResistance(activeDrugs) is False:
             return NoChildException()
 
-        
         # Reproduce
         if random.random() <= (self.maxBirthProb * (1 - popDensity)):
-            print "got here"
 
-            ## mutation
+            # mutation
             new_resis = self.resistances.copy()
             
             for i in activeDrugs:
@@ -354,8 +330,8 @@ class ResistantVirus(SimpleVirus):
                     print "Resistant, random.random good" 
 
                 return ResistantVirus(self.maxBirthProb, self.clearProb, new_resis, self.mutProb)
-       
-        
+            print "Statement 2"
+            return ResistantVirus(self.maxBirthProb, self.clearProb, self.resistances, self.mutProb)
 
             
 class Patient(SimplePatient):
@@ -377,11 +353,11 @@ class Patient(SimplePatient):
         """
         # TODO
 
-        self.viruses = viruses ## is a list, all virus instance
-        self.maxPop = maxPop ## an int, max amount of virus in patient
+        self.viruses = viruses  # is a list, all virus instance
+        self.maxPop = maxPop  # an int, max amount of virus in patient
+        self.popDensity = self.getTotalPop() / float(self.maxPop)
+        self.drugResist = []
 
-        
-        
     def addPrescription(self, newDrug):
         """
         Administer a drug to this patient. After a prescription is added, the 
@@ -394,12 +370,9 @@ class Patient(SimplePatient):
         """
         # TODO
 
-        self.drugResist = []
         self.drugResist.append(newDrug)
         
         return self.drugResist
-        
-
 
     def getPrescriptions(self):
         """
@@ -410,11 +383,8 @@ class Patient(SimplePatient):
         """
         # TODO
 
-
         return self.drugResist
 
-    
-        
     def getResistPop(self, drugResist):
         """
         Get the population of virus particles resistant to the drugs listed in 
@@ -435,8 +405,6 @@ class Patient(SimplePatient):
                 count += 1
 
         return count
-                
-        
 
     def update(self):
         """
@@ -461,39 +429,32 @@ class Patient(SimplePatient):
 
         new_virus = []
 
-        ## Check for virus saturation
-        if len(self.viruses) > self.maxPop:
+        # Check for virus saturation
+        if len(self.viruses) >= self.maxPop:
             print "Patient is dead"
 
-
-        ## Clear viruses from list who died
+        # Clear viruses from list who died
         for i in self.viruses:
-            if i.doesClear() == True:
+            if i.doesClear() is True:
                 self.viruses.remove(i)
 
-
-        ## Verify that viruses remains
+        # Verify that viruses remains
         if len(self.viruses) <= 0:
             return "Patient cured"
 
-        
-        ## Pop density calculated
-        self.popDensity = self.getTotalPop() / float(self.maxPop)       
+        self.popDensity = self.getTotalPop() / float(self.maxPop)
 
         for i in self.viruses:
 
             try:
                 new_virus.append(i.reproduce(self.popDensity, self.drugResist))
-                print "yes"
 
-            except:
-                NoChildException
+            except NoChildException:
                 continue
 
-        ## Merge two lists
+        # Merge two lists
         self.viruses = self.viruses + new_virus
-        
-        
+
         return self.viruses
 
 
@@ -513,23 +474,21 @@ def problem4():
     """
     # TODO
 
-
     infection = []
     progression = []
     
     for i in range(0,100):
-        infection.append(ResistantVirus(0.1, 0.05, {"guttagonol":False}, 0.005))
+        infection.append(ResistantVirus(0.1, 0.05, {"guttagonol": False}, 0.005))
 
     patient_zero = Patient(infection, 1000)
 
-        
     for i in range(0, 150):
         patient_zero.update()
         progression.append(len(patient_zero.viruses))
         pylab.plot(i, len(patient_zero.viruses), "b.")
 
-##        if len(patient_zero.viruses) <= 0:
-##            break
+#        if len(patient_zero.viruses) <= 0:
+#            break
 
     patient_zero.addPrescription("guttagonol")
 
@@ -538,10 +497,9 @@ def problem4():
         progression.append(len(patient_zero.viruses))
         pylab.plot(i, len(patient_zero.viruses), "r.")
 
-##        if len(patient_zero.viruses) <= 0:
-##            break
+#        if len(patient_zero.viruses) <= 0:
+#            break
 
-        
     pylab.title("Virus propagation")
     pylab.xlabel("Time")
     pylab.ylabel("Infection in body")
@@ -550,7 +508,6 @@ def problem4():
 #
 # PROBLEM 5
 #
-        
 def problem5():
     """
     Runs simulations and make histograms for problem 5.
@@ -567,7 +524,6 @@ def problem5():
 #
 # PROBLEM 6
 #
-
 def problem6():
     """
     Runs simulations and make histograms for problem 6.
@@ -584,7 +540,6 @@ def problem6():
 #
 # PROBLEM 7
 #
-     
 def problem7():
     """
     Run simulations and plot graphs examining the relationship between
