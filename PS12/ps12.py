@@ -244,8 +244,7 @@ class ResistantVirus(SimpleVirus):
         """
         # TODO
 
-        self.maxBirthProb = maxBirthProb 
-        self.clearProb = clearProb 
+        SimpleVirus.__init__(self, maxBirthProb, clearProb)
         self.resistances = resistances  # dict
         self.mutProb = mutProb  # float
 
@@ -263,10 +262,13 @@ class ResistantVirus(SimpleVirus):
         # TODO
 
         try:
-            return self.resistances[drug] 
+            if self.resistances[drug] is True:
+                return True
 
-        except:
-            return "Drug not in dictionnary"
+        except KeyError:
+            return False
+
+        return False
 
     def reproduce(self, popDensity, activeDrugs):
         """
@@ -307,30 +309,31 @@ class ResistantVirus(SimpleVirus):
         maxBirthProb and clearProb values as this virus. Raises a
         NoChildException if this virus particle does not reproduce.         
         """
-        # TODO  ## bug here
+        # TODO  ## bug here, single bug to be made
 
         # Look if virus is resistance to drug
-        if self.getResistance(activeDrugs) is False:
-            return NoChildException()
+        for drugs in activeDrugs:
+            if self.getResistance(drugs) is False:
+                raise NoChildException()
 
         # Reproduce
         if random.random() <= (self.maxBirthProb * (1 - popDensity)):
 
             # mutation
             new_resis = self.resistances.copy()
-            
-            for i in activeDrugs:
 
-                if new_resis[i] == False and random.random() <= (1 - self.mutProb):
+            for i in activeDrugs:  # Debug to be made here
+
+                a = random.random()
+
+                if self.resistances[i] is False and a <= (1 - self.mutProb):
                     new_resis[i] = True
-                    print "not resistant, random.random good" 
 
-                elif new_resis[i] == True and random.random() <= (1 - self.mutProb):
+                if self.resistances[i] is True and a <= self.mutProb:
                     new_resis[i] = False
-                    print "Resistant, random.random good" 
 
                 return ResistantVirus(self.maxBirthProb, self.clearProb, new_resis, self.mutProb)
-            print "Statement 2"
+
             return ResistantVirus(self.maxBirthProb, self.clearProb, self.resistances, self.mutProb)
 
             
@@ -353,9 +356,7 @@ class Patient(SimplePatient):
         """
         # TODO
 
-        self.viruses = viruses  # is a list, all virus instance
-        self.maxPop = maxPop  # an int, max amount of virus in patient
-        self.popDensity = self.getTotalPop() / float(self.maxPop)
+        SimplePatient.__init__(self, viruses, maxPop)
         self.drugResist = []
 
     def addPrescription(self, newDrug):
@@ -426,7 +427,7 @@ class Patient(SimplePatient):
         integer)
         """
         # TODO
-
+        # debug to me made there
         new_virus = []
 
         # Check for virus saturation
@@ -434,9 +435,12 @@ class Patient(SimplePatient):
             print "Patient is dead"
 
         # Clear viruses from list who died
-        for i in self.viruses:
-            if i.doesClear() is True:
-                self.viruses.remove(i)
+        try:
+            for i in self.viruses:
+                if i.doesClear() is True:
+                    self.viruses.remove(i)
+        except:
+            return
 
         # Verify that viruses remains
         if len(self.viruses) <= 0:
@@ -482,23 +486,20 @@ def problem4():
 
     patient_zero = Patient(infection, 1000)
 
-    for i in range(0, 150):
+    for y in range(0, 150):
         patient_zero.update()
         progression.append(len(patient_zero.viruses))
-        pylab.plot(i, len(patient_zero.viruses), "b.")
+        pylab.plot(y, len(patient_zero.viruses), "b.")
 
-#        if len(patient_zero.viruses) <= 0:
-#            break
 
     patient_zero.addPrescription("guttagonol")
 
-    for i in range(150, 300):
+    for z in range(150, 300):
         patient_zero.update()
         progression.append(len(patient_zero.viruses))
-        pylab.plot(i, len(patient_zero.viruses), "r.")
+        pylab.plot(z, len(patient_zero.viruses), "r.")
 
-#        if len(patient_zero.viruses) <= 0:
-#            break
+
 
     pylab.title("Virus propagation")
     pylab.xlabel("Time")
@@ -552,5 +553,4 @@ def problem7():
     # TODO
 
 
-print problem4()
-
+print problem2()
