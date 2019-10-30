@@ -143,8 +143,7 @@ class SimplePatient(object):
         new_virus = []
 
         # Check for virus saturation
-        if len(self.viruses) > self.maxPop:
-            print "Patient is dead"
+        assert len(self.viruses) > self.maxPop, "Patient died"
 
         # Clear viruses from list who died
         for i in self.viruses:
@@ -152,8 +151,7 @@ class SimplePatient(object):
                 self.viruses.remove(i)
 
         # Verify that viruses remains
-        if len(self.viruses) <= 0:
-            return "Patient cured"
+        assert len(self.viruses) <= 0, "Patient cured"
 
         # Pop density calculated
         self.popDensity = self.getTotalPop() / float(self.maxPop)       
@@ -169,7 +167,7 @@ class SimplePatient(object):
         # Merge two lists
         self.viruses = self.viruses + new_virus
 
-        return self.viruses
+        return self.getTotalPop()
 #
 # PROBLEM 2
 #
@@ -337,6 +335,7 @@ class ResistantVirus(SimpleVirus):
             raise NoChildException()
 
 
+
 class Patient(SimplePatient):
     """
     Representation of a patient. The patient is able to take drugs and his/her
@@ -437,7 +436,7 @@ class Patient(SimplePatient):
                 if i.doesClear() is True:
                     self.viruses.remove(i)
         except None:
-            return
+            return self.getTotalPop()
 
         self.popDensity = self.getTotalPop() / float(self.maxPop)
 
@@ -451,7 +450,7 @@ class Patient(SimplePatient):
 
         self.viruses = self.viruses + new_virus
 
-        return self.viruses
+        return self.getTotalPop()
 
 
 #
@@ -517,13 +516,18 @@ def problem5():
 
     infection = []
     answer = []
+    count = 0
 
     for i in range(0, 100):
         infection.append(ResistantVirus(0.1, 0.05, {"guttagonol": False}, 0.005))
 
     for sim in range(200):
-        answer.append(run_sim(300,Patient(infection, 1000)))
+        a = run_sim(300, Patient(infection, 1000))
+        answer.append(a)
+        if a < 50:
+            count += 1
 
+    print count, (count/len(answer))*100, "%"
 
     pylab.title("Virus propagation, delayed treatment")
     pylab.hist(answer, bins=10)
