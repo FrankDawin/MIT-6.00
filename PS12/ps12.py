@@ -6,7 +6,7 @@
 from __future__ import division
 import random
 import pylab
-
+import time
 
 class NoChildException(Exception):
     """
@@ -253,7 +253,7 @@ class ResistantVirus(SimpleVirus):
                 return True
 
         except KeyError:
-            print "Key not found"
+            # print "Key not found"
             return False
 
         return False
@@ -300,37 +300,31 @@ class ResistantVirus(SimpleVirus):
         # TODO
 
         # Look if drug is the patient system, and if so look if resistant
-        if len(activeDrugs) > 0:  # If there is no drug in the system, skip...
-            for drugs in activeDrugs:
 
-                if self.getResistance(drugs) is False:
-                    raise NoChildException()
+        for drugs in activeDrugs:
+            if self.getResistance(drugs) is False:
+                raise NoChildException()
 
         # reproduce
         if random.random() <= (self.maxBirthProb * (1 - popDensity)):  # Probability that the virus reproduce
 
             # mutation
             new_resis = self.resistances.copy()
+            # new_resis = {}
 
             for i in self.resistances:
 
-                a = random.random()
+                if random.random() > (1 - self.mutProb):  # Children lost it
 
-                # Resistance hereditary
-                if self.resistances[i] is True and a <= (1 - self.mutProb):  # Children will have resistance
-                    new_resis[i] = True
-                elif self.resistances[i] is True and a > (1 - self.mutProb):  # Children lost it
-                    new_resis[i] = False
+                    # Resistance hereditary
+                    if self.resistances[i] is True: # Children lost it
+                        new_resis[i] = False
 
-                # Switching resistance
-                if self.resistances[i] is True and a <= self.mutProb:
-                    new_resis[i] = False
-                elif self.resistances[i] is False and a <= self.mutProb:
-                    new_resis[i] = True
+                    # Switching resistance
+                    elif self.resistances[i] is False:
+                        new_resis[i] = True
 
-                return ResistantVirus(self.maxBirthProb, self.clearProb, new_resis, self.mutProb)
-
-            return ResistantVirus(self.maxBirthProb, self.clearProb, self.resistances, self.mutProb)
+            return ResistantVirus(self.maxBirthProb, self.clearProb, new_resis, self.mutProb)
 
         else:
             raise NoChildException()
@@ -432,22 +426,19 @@ class Patient(SimplePatient):
         new_virus = []
 
         # Clear viruses from list who died
-        try:
-            for i in self.viruses:
-                if i.doesClear() is True:
-                    self.viruses.remove(i)
-        except None:
-            return self.getTotalPop()
-
-        self.popDensity = self.getTotalPop() / float(self.maxPop)
 
         for i in self.viruses:
+            if i.doesClear():
+                self.viruses.remove(i)
 
-            try:
-                new_virus.append(i.reproduce(self.popDensity, self.drugResist))
+            else:
+                self.popDensity = self.getTotalPop() / float(self.maxPop)
 
-            except NoChildException:
-                continue
+                try:
+                    new_virus.append(i.reproduce(self.popDensity, self.drugResist))
+
+                except NoChildException:
+                    continue
 
         self.viruses = self.viruses + new_virus
 
@@ -582,7 +573,7 @@ def problem6():
     count = 0
 
     num_of_trial = 30
-    delay_of_drug = 0
+    delay_of_drug = 75
 
     infection = []
 
@@ -593,12 +584,11 @@ def problem6():
         temp_list = list(infection)
         a = run_sim_p6(delay_of_drug, Patient(temp_list, 1000))
         answer.append(a)
-        if a < 50:
+        if a <= 50:
             count += 1
 
-    print count, (count/len(answer))*100, "% of patient cured"
 
-    pylab.title("Virus propagation, delayed treatment")
+    pylab.title("Delay {}, {} trials, {} % of patient cured".format(delay_of_drug, num_of_trial, (count/len(answer))*100))
     pylab.hist(answer, bins=10)
     pylab.xlabel("Final total virus population")
     pylab.ylabel("number of patient")
@@ -607,7 +597,6 @@ def problem6():
 
 def run_sim_p6(drug_timing, current_patient):
     '''Run a sim for a patient return final value of virus'''
-
 
     for y in range(0, 150):
         current_patient.update()
