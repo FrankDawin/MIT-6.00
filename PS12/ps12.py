@@ -632,4 +632,74 @@ def problem7():
     # TODO
 
 
-problem6()
+
+    delay_of_drug = 150
+
+    infection = []
+
+    for i in range(0, 100):
+        infection.append(ResistantVirus(0.1, 0.05, {"guttagonol": False}, 0.005))
+
+    patient_1 = Patient(infection, 1000)
+    patient_2 = Patient(infection, 1000)
+
+    list_1 = run_sim_p8(delay_of_drug, patient_1)
+    list_2 = run_sim_p8_2(delay_of_drug, patient_2)
+
+    for data in list_1:
+        pylab.plot(list_1.index(data), data, "b.")
+
+    for data in list_2:
+        pylab.plot(list_2.index(data), data, "r.")
+
+    pylab.title("Virus propagation, problem 7")
+    pylab.xlabel("Time")
+    pylab.ylabel("Virus total")
+    pylab.show()
+
+
+def run_sim_p8(drug_timing, current_patient):
+    '''Run a sim for a patient return final value of virus'''
+
+    result = []
+
+    for y in range(1, drug_timing):
+        current_patient.update()
+        result.append(current_patient.getTotalPop())
+
+    current_patient.addPrescription("guttagonol")
+
+    for z in range(0, 300):
+        current_patient.update()
+        result.append(current_patient.getTotalPop())
+
+    current_patient.addPrescription("grimpex")
+
+    for z in range(0, 150):
+        current_patient.update()
+        result.append(current_patient.getTotalPop())
+
+
+    return result
+
+
+def run_sim_p8_2(drug_timing, current_patient):
+    '''Run a sim for a patient return final value of virus'''
+
+    result = []
+
+    for y in range(1, drug_timing):
+        current_patient.update()
+        result.append(current_patient.getTotalPop())
+
+    current_patient.addPrescription("guttagonol")
+    current_patient.addPrescription("grimpex")
+
+    for z in range(0, 150):
+        current_patient.update()
+        result.append(current_patient.getTotalPop())
+
+    return result
+
+
+problem7()
