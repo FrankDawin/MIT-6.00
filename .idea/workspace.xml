@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c1d7bd3-3839-4ad2-87b3-37165ff53ac8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/poste.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/poste.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PS12/notes" beforeDir="false" afterPath="$PROJECT_DIR$/PS12/notes" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PS12/ps12.py" beforeDir="false" afterPath="$PROJECT_DIR$/PS12/ps12.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,44 +20,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PS12/ps12.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="662">
-              <caret line="556" lean-forward="true" selection-start-line="556" selection-end-line="556" />
+            <state relative-caret-position="190">
+              <caret line="533" lean-forward="true" selection-start-line="533" selection-end-line="533" />
               <folding>
                 <element signature="n#!!doc" />
-                <element signature="e#189#445#0" />
-                <element signature="e#189#445#2" />
-                <element signature="e#495#585#1" />
-                <element signature="e#649#1036#0" />
-                <element signature="e#649#950#1" />
-                <element signature="e#1089#1543#0" />
-                <element signature="e#1089#1388#1" />
-                <element signature="e#1604#2567#1" />
-                <element signature="e#2840#5419#0" />
-                <element signature="e#2840#2990#1" />
-                <element signature="e#3045#3546#0" />
-                <element signature="e#3045#3344#1" />
-                <element signature="e#3580#3697#0" />
-                <element signature="e#3734#3891#0" />
-                <element signature="e#3734#3857#1" />
-                <element signature="e#3923#5419#0" />
-                <element signature="e#3923#4614#1" />
-                <element signature="e#5458#5729#1" />
-                <element signature="e#6326#11047#0" />
-                <element signature="e#6326#6399#1" />
-                <element signature="e#6488#7265#1" />
-                <element signature="e#7473#8031#0" />
-                <element signature="e#7473#7830#1" />
-                <element signature="e#8014#9974#1" />
-                <element signature="e#11064#14982#0" />
-                <element signature="e#11280#11699#1" />
-                <element signature="e#11848#12264#1" />
-                <element signature="e#12402#12583#1" />
-                <element signature="e#12680#13074#1" />
-                <element signature="e#13292#14107#1" />
-                <element signature="e#15022#15335#1" />
-                <element signature="e#16231#16577#1" />
-                <element signature="e#16630#17010#1" />
-                <element signature="e#17059#17425#1" />
+                <element signature="e#57#88#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -82,10 +49,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="14" />
-    <option name="y" value="9" />
-    <option name="width" value="1260" />
-    <option name="height" value="944" />
+    <option name="x" value="629" />
+    <option name="y" value="1" />
+    <option name="width" value="619" />
+    <option name="height" value="938" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -94,7 +61,10 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -148,6 +118,14 @@
       <option name="presentableId" value="Default" />
       <updated>1570648966847</updated>
     </task>
+    <task id="LOCAL-00001" summary="Better code">
+      <created>1571450877578</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1571450877578</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -160,16 +138,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
+    <frame x="-8" y="-8" width="1296" height="1000" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4971165" weight="0.16136725" />
       <window_info id="Structure" order="1" sideWeight="0.5028835" side_tool="true" weight="0.16136725" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.3298887" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32871974" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39907727" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3298731" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28346458" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3982002" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32871974" />
@@ -183,30 +161,26 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Better code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Better code" />
+  </component>
   <component name="XDebuggerManager">
     <watches-manager>
       <configuration name="PythonConfigurationType">
+        <watch expression="(1 - self.mutProb)" language="Python" />
+        <watch expression="len(activeDrugs)" language="Python" />
+        <watch expression="self.resistances[i] is False and a &lt;= (1 - self.mutProb)" language="Python" />
+        <watch expression="self.resistances[i]" language="Python" />
+        <watch expression="new_resis[i]" language="Python" />
         <watch expression="(self.maxBirthProb * (1 - popDensity))" language="Python" />
-        <watch expression="random.random()" language="Python" />
-        <watch expression="type(c)" language="Python" />
-        <watch expression="a &lt;= (1 - self.mutProb)" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
       <expression>
-        <expression-string>a &lt;= (1 - self.mutProb)</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
         <expression-string>(self.maxBirthProb * (1 - popDensity))</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>type(c)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -216,12 +190,47 @@
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>print infection</expression-string>
+        <expression-string>new_resis[i]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.resistances[i]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.resistances[i] is False and a &lt;= (1 - self.mutProb)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>len(activeDrugs)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self.mutProb</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(1 - self.mutProb)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>a &lt;= (1 - self.mutProb)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>self.resistances[i]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>a &lt;= (1 - self.mutProb)</expression-string>
         <language-id>Python</language-id>
@@ -257,44 +266,11 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/PS12/ps12.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="662">
-          <caret line="556" lean-forward="true" selection-start-line="556" selection-end-line="556" />
+        <state relative-caret-position="190">
+          <caret line="533" lean-forward="true" selection-start-line="533" selection-end-line="533" />
           <folding>
             <element signature="n#!!doc" />
-            <element signature="e#189#445#0" />
-            <element signature="e#189#445#2" />
-            <element signature="e#495#585#1" />
-            <element signature="e#649#1036#0" />
-            <element signature="e#649#950#1" />
-            <element signature="e#1089#1543#0" />
-            <element signature="e#1089#1388#1" />
-            <element signature="e#1604#2567#1" />
-            <element signature="e#2840#5419#0" />
-            <element signature="e#2840#2990#1" />
-            <element signature="e#3045#3546#0" />
-            <element signature="e#3045#3344#1" />
-            <element signature="e#3580#3697#0" />
-            <element signature="e#3734#3891#0" />
-            <element signature="e#3734#3857#1" />
-            <element signature="e#3923#5419#0" />
-            <element signature="e#3923#4614#1" />
-            <element signature="e#5458#5729#1" />
-            <element signature="e#6326#11047#0" />
-            <element signature="e#6326#6399#1" />
-            <element signature="e#6488#7265#1" />
-            <element signature="e#7473#8031#0" />
-            <element signature="e#7473#7830#1" />
-            <element signature="e#8014#9974#1" />
-            <element signature="e#11064#14982#0" />
-            <element signature="e#11280#11699#1" />
-            <element signature="e#11848#12264#1" />
-            <element signature="e#12402#12583#1" />
-            <element signature="e#12680#13074#1" />
-            <element signature="e#13292#14107#1" />
-            <element signature="e#15022#15335#1" />
-            <element signature="e#16231#16577#1" />
-            <element signature="e#16630#17010#1" />
-            <element signature="e#17059#17425#1" />
+            <element signature="e#57#88#0" expanded="true" />
           </folding>
         </state>
       </provider>
