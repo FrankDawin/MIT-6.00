@@ -537,7 +537,7 @@ def run_sim(drug_timing, current_patient):
 
     progression = []
 
-    for y in range(0, drug_timing):
+    for y in range(1, drug_timing):
         current_patient.update()
 
     current_patient.addPrescription("guttagonol")
