@@ -514,20 +514,25 @@ def problem5():
     """
     # TODO
 
-    infection = []
     answer = []
     count = 0
+
+    num_of_trial = 300
+    delay_of_drug = 75
+
+    infection = []
 
     for i in range(0, 100):
         infection.append(ResistantVirus(0.1, 0.05, {"guttagonol": False}, 0.005))
 
-    for sim in range(200):
-        a = run_sim(300, Patient(infection, 1000))
+    for sim in range(num_of_trial):
+        temp_list = list(infection)
+        a = run_sim(delay_of_drug, Patient(temp_list, 1000))
         answer.append(a)
         if a < 50:
             count += 1
 
-    print count, (count/len(answer))*100, "%"
+    print count, (count/len(answer))*100, "% of patient cured"
 
     pylab.title("Virus propagation, delayed treatment")
     pylab.hist(answer, bins=10)
@@ -539,7 +544,7 @@ def problem5():
 def run_sim(drug_timing, current_patient):
     '''Run a sim for a patient return final value of virus'''
 
-    progression = []
+
 
     for y in range(1, drug_timing):
         current_patient.update()
@@ -548,7 +553,6 @@ def run_sim(drug_timing, current_patient):
 
     for z in range(drug_timing + 1, drug_timing + 151):
         current_patient.update()
-        progression.append(len(current_patient.viruses))
 
     answer = len(current_patient.viruses)
 
