@@ -8,6 +8,12 @@ simulation:
 Patien clear is a fixed variable
 Virus reproduce is a changing variable
 
-prob 3
+
+Prob 3
 
 drug prevent virus from reproducing
+the one with the resistance, reproduce
+
+mutation add diversity
+some virus gain resistance, some don't
+
