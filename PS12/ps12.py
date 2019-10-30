@@ -302,6 +302,7 @@ class ResistantVirus(SimpleVirus):
         # Look if drug is the patient system, and if so look if resistant
         if len(activeDrugs) > 0:  # If there is no drug in the system, skip...
             for drugs in activeDrugs:
+
                 if self.getResistance(drugs) is False:
                     raise NoChildException()
 
@@ -527,7 +528,7 @@ def problem5():
 
     for sim in range(num_of_trial):
         temp_list = list(infection)
-        a = run_sim(delay_of_drug, Patient(temp_list, 1000))
+        a = run_sim_p5(delay_of_drug, Patient(temp_list, 1000))
         answer.append(a)
         if a < 50:
             count += 1
@@ -541,7 +542,7 @@ def problem5():
     pylab.show()
 
 
-def run_sim(drug_timing, current_patient):
+def run_sim_p5(drug_timing, current_patient):
     '''Run a sim for a patient return final value of virus'''
 
 
@@ -577,6 +578,54 @@ def problem6():
     """
     # TODO
 
+    answer = []
+    count = 0
+
+    num_of_trial = 30
+    delay_of_drug = 0
+
+    infection = []
+
+    for i in range(0, 100):
+        infection.append(ResistantVirus(0.1, 0.05, {"guttagonol": False, "grimpex": False}, 0.005))
+
+    for sim in range(num_of_trial):
+        temp_list = list(infection)
+        a = run_sim_p6(delay_of_drug, Patient(temp_list, 1000))
+        answer.append(a)
+        if a < 50:
+            count += 1
+
+    print count, (count/len(answer))*100, "% of patient cured"
+
+    pylab.title("Virus propagation, delayed treatment")
+    pylab.hist(answer, bins=10)
+    pylab.xlabel("Final total virus population")
+    pylab.ylabel("number of patient")
+    pylab.show()
+
+
+def run_sim_p6(drug_timing, current_patient):
+    '''Run a sim for a patient return final value of virus'''
+
+
+    for y in range(0, 150):
+        current_patient.update()
+
+    current_patient.addPrescription("guttagonol")
+
+    for z in range(0, drug_timing):
+        current_patient.update()
+
+    current_patient.addPrescription("grimpex")
+
+    for x in range(0, 150):
+        current_patient.update()
+
+    answer = len(current_patient.viruses)
+
+    return answer
+
 #
 # PROBLEM 7
 #
@@ -594,4 +643,4 @@ def problem7():
     # TODO
 
 
-problem5()
+problem6()
